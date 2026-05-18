@@ -2,53 +2,65 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { ResultScreen } from '../../components/ResultScreen';
+import type { SessionResult } from '../../lib/types';
 
 const RESULT_KEY = 'aiq_session_result';
 
+type LoadState =
+  | { kind: 'pending' }
+  | { kind: 'missing' }
+  | { kind: 'invalid' }
+  | { kind: 'ready'; session: SessionResult };
+
+function isValidSession(value: unknown): value is SessionResult {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  if (typeof v.aiq !== 'number') return false;
+  if (!['paranoid', 'trusting', 'balanced'].includes(v.biasProfile as string)) return false;
+  if (!v.modalityScores || typeof v.modalityScores !== 'object') return false;
+  const ms = v.modalityScores as Record<string, unknown>;
+  for (const m of ['text', 'image', 'video', 'audio']) {
+    if (typeof ms[m] !== 'number') return false;
+  }
+  if (!Array.isArray(v.rounds)) return false;
+  return true;
+}
+
 export default function ResultPage() {
-  const [raw, setRaw] = useState<string | null>(null);
-  const [checked, setChecked] = useState(false);
+  const [state, setState] = useState<LoadState>({ kind: 'pending' });
 
   useEffect(() => {
-    setRaw(sessionStorage.getItem(RESULT_KEY));
-    setChecked(true);
+    const raw = sessionStorage.getItem(RESULT_KEY);
+    if (!raw) {
+      setState({ kind: 'missing' });
+      return;
+    }
+    try {
+      const parsed = JSON.parse(raw);
+      if (isValidSession(parsed)) {
+        setState({ kind: 'ready', session: parsed });
+      } else {
+        setState({ kind: 'invalid' });
+      }
+    } catch {
+      setState({ kind: 'invalid' });
+    }
   }, []);
 
-  if (!checked) return <div aria-hidden="true" />;
+  if (state.kind === 'pending') return <div aria-hidden="true" />;
 
-  if (!raw) {
-    return (
-      <main className="mx-auto w-full max-w-[600px] flex flex-col items-center gap-4 p-8 text-center">
-        <h1 className="text-2xl font-bold">Нет результата</h1>
-        <p className="text-muted">Сначала пройдите тест.</p>
-        <Link
-          href="/"
-          className="px-5 py-3 rounded-md bg-primary text-white font-semibold"
-        >
-          На главную
-        </Link>
-      </main>
-    );
-  }
-
-  let pretty: string;
-  try {
-    pretty = JSON.stringify(JSON.parse(raw), null, 2);
-  } catch {
-    pretty = raw;
-  }
+  if (state.kind === 'ready') return <ResultScreen session={state.session} />;
 
   return (
-    <main className="mx-auto w-full max-w-[900px] p-8 flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Результат (заглушка)</h1>
-      <pre className="bg-surface border border-border rounded-md p-4 text-xs overflow-auto whitespace-pre-wrap">
-        {pretty}
-      </pre>
+    <main className="mx-auto w-full max-w-[600px] flex flex-col items-center gap-4 p-8 text-center">
+      <h1 className="text-2xl font-bold">Нет результата</h1>
+      <p className="text-muted">Сначала пройдите тест.</p>
       <Link
-        href="/"
-        className="self-start px-5 py-3 rounded-md bg-primary text-white font-semibold"
+        href="/test"
+        className="px-5 py-3 rounded-md bg-primary text-white font-semibold"
       >
-        На главную
+        Пройти тест
       </Link>
     </main>
   );
