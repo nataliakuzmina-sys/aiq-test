@@ -1,0 +1,254 @@
+{
+  "_comment": "ЗАМЕНИТЕ этот файл реальными данными по 34 единицам контента. Сохраните как content.json (без .example) в папку lib/. Структура каждого item обязательна: id (уникальный), type (один из 10 ниже), modality, source ('ai' или 'human'). Для текста — поле content. Для медиа — поле url (путь от корня /public/). Поле _comment удалите.",
+
+  "items": [
+
+    {
+      "id": "marketplace-1",
+      "type": "marketplace",
+      "modality": "text",
+      "source": "ai",
+      "content": "Сюда положите текст описания товара от ИИ. Длина 300–500 знаков."
+    },
+    {
+      "id": "marketplace-2",
+      "type": "marketplace",
+      "modality": "text",
+      "source": "human",
+      "content": "Сюда положите текст описания товара, написанный человеком."
+    },
+    {
+      "id": "marketplace-3",
+      "type": "marketplace",
+      "modality": "text",
+      "source": "ai",
+      "content": "Третий вариант описания товара. Укажите source корректно."
+    },
+
+    {
+      "id": "bank-1",
+      "type": "bank",
+      "modality": "text",
+      "source": "ai",
+      "content": "Сообщение от банка в мессенджере, вариант 1."
+    },
+    {
+      "id": "bank-2",
+      "type": "bank",
+      "modality": "text",
+      "source": "human",
+      "content": "Сообщение от банка, вариант 2."
+    },
+    {
+      "id": "bank-3",
+      "type": "bank",
+      "modality": "text",
+      "source": "ai",
+      "content": "Сообщение от банка, вариант 3."
+    },
+
+    {
+      "id": "ai-note-1",
+      "type": "ai-note",
+      "modality": "text",
+      "source": "ai",
+      "content": "Короткая информационная заметка про ИИ, вариант 1."
+    },
+    {
+      "id": "ai-note-2",
+      "type": "ai-note",
+      "modality": "text",
+      "source": "human",
+      "content": "Заметка про ИИ, вариант 2."
+    },
+    {
+      "id": "ai-note-3",
+      "type": "ai-note",
+      "modality": "text",
+      "source": "human",
+      "content": "Заметка про ИИ, вариант 3."
+    },
+
+    {
+      "id": "painting-1",
+      "type": "painting",
+      "modality": "image",
+      "source": "ai",
+      "url": "/media/images/painting-1.jpg"
+    },
+    {
+      "id": "painting-2",
+      "type": "painting",
+      "modality": "image",
+      "source": "human",
+      "url": "/media/images/painting-2.jpg"
+    },
+    {
+      "id": "painting-3",
+      "type": "painting",
+      "modality": "image",
+      "source": "ai",
+      "url": "/media/images/painting-3.jpg"
+    },
+    {
+      "id": "painting-4",
+      "type": "painting",
+      "modality": "image",
+      "source": "human",
+      "url": "/media/images/painting-4.jpg"
+    },
+    {
+      "id": "painting-5",
+      "type": "painting",
+      "modality": "image",
+      "source": "ai",
+      "url": "/media/images/painting-5.jpg"
+    },
+    {
+      "id": "painting-6",
+      "type": "painting",
+      "modality": "image",
+      "source": "human",
+      "url": "/media/images/painting-6.jpg"
+    },
+
+    {
+      "id": "landscape-1",
+      "type": "landscape",
+      "modality": "image",
+      "source": "ai",
+      "url": "/media/images/landscape-1.jpg"
+    },
+    {
+      "id": "landscape-2",
+      "type": "landscape",
+      "modality": "image",
+      "source": "human",
+      "url": "/media/images/landscape-2.jpg"
+    },
+    {
+      "id": "landscape-3",
+      "type": "landscape",
+      "modality": "image",
+      "source": "ai",
+      "url": "/media/images/landscape-3.jpg"
+    },
+    {
+      "id": "landscape-4",
+      "type": "landscape",
+      "modality": "image",
+      "source": "human",
+      "url": "/media/images/landscape-4.jpg"
+    },
+    {
+      "id": "landscape-5",
+      "type": "landscape",
+      "modality": "image",
+      "source": "human",
+      "url": "/media/images/landscape-5.jpg"
+    },
+
+    {
+      "id": "cat-video-1",
+      "type": "cat-video",
+      "modality": "video",
+      "source": "ai",
+      "url": "/media/videos/cat-video-1.mp4"
+    },
+    {
+      "id": "cat-video-2",
+      "type": "cat-video",
+      "modality": "video",
+      "source": "human",
+      "url": "/media/videos/cat-video-2.mp4"
+    },
+    {
+      "id": "cat-video-3",
+      "type": "cat-video",
+      "modality": "video",
+      "source": "ai",
+      "url": "/media/videos/cat-video-3.mp4"
+    },
+
+    {
+      "id": "ad-video-1",
+      "type": "ad-video",
+      "modality": "video",
+      "source": "ai",
+      "url": "/media/videos/ad-video-1.mp4"
+    },
+    {
+      "id": "ad-video-2",
+      "type": "ad-video",
+      "modality": "video",
+      "source": "human",
+      "url": "/media/videos/ad-video-2.mp4"
+    },
+
+    {
+      "id": "phone-call-a-1",
+      "type": "phone-call-a",
+      "modality": "audio",
+      "source": "ai",
+      "url": "/media/audio/phone-call-a-1.mp3"
+    },
+    {
+      "id": "phone-call-a-2",
+      "type": "phone-call-a",
+      "modality": "audio",
+      "source": "human",
+      "url": "/media/audio/phone-call-a-2.mp3"
+    },
+    {
+      "id": "phone-call-a-3",
+      "type": "phone-call-a",
+      "modality": "audio",
+      "source": "ai",
+      "url": "/media/audio/phone-call-a-3.mp3"
+    },
+
+    {
+      "id": "phone-call-b-1",
+      "type": "phone-call-b",
+      "modality": "audio",
+      "source": "human",
+      "url": "/media/audio/phone-call-b-1.mp3"
+    },
+    {
+      "id": "phone-call-b-2",
+      "type": "phone-call-b",
+      "modality": "audio",
+      "source": "ai",
+      "url": "/media/audio/phone-call-b-2.mp3"
+    },
+    {
+      "id": "phone-call-b-3",
+      "type": "phone-call-b",
+      "modality": "audio",
+      "source": "human",
+      "url": "/media/audio/phone-call-b-3.mp3"
+    },
+
+    {
+      "id": "song-1",
+      "type": "song",
+      "modality": "audio",
+      "source": "ai",
+      "url": "/media/audio/song-1.mp3"
+    },
+    {
+      "id": "song-2",
+      "type": "song",
+      "modality": "audio",
+      "source": "human",
+      "url": "/media/audio/song-2.mp3"
+    },
+    {
+      "id": "song-3",
+      "type": "song",
+      "modality": "audio",
+      "source": "ai",
+      "url": "/media/audio/song-3.mp3"
+    }
+  ]
+}
