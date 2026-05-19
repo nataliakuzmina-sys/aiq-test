@@ -15,6 +15,7 @@ import { PublishForm } from './PublishForm';
 
 interface ResultScreenProps {
   session: SessionResult;
+  mode?: 'own' | 'shared';
 }
 
 interface BiasMeta {
@@ -59,17 +60,29 @@ const DIPLOMA_WIDTH = 1080;
 const DIPLOMA_HEIGHT = 1920;
 const RESULT_KEY = 'aiq_session_result';
 
-export function ResultScreen({ session }: ResultScreenProps) {
+export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
   const title = getTitle(session.aiq, session.biasProfile);
   const bias = BIAS_META[session.biasProfile];
+  const isShared = mode === 'shared';
 
   const previewBoxRef = useRef<HTMLDivElement>(null);
   const diplomaRef = useRef<HTMLDivElement>(null);
   const [previewScale, setPreviewScale] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [publication, setPublication] = useState<Publication | null>(
-    session.publication ?? null,
+    isShared ? null : session.publication ?? null,
   );
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isShared) {
+      setShareUrl(window.location.href);
+    } else if (publication) {
+      setShareUrl(`${window.location.origin}/result/${publication.resultId}`);
+    } else {
+      setShareUrl(null);
+    }
+  }, [isShared, publication]);
 
   useEffect(() => {
     const el = previewBoxRef.current;
@@ -214,28 +227,43 @@ export function ResultScreen({ session }: ResultScreenProps) {
         >
           {downloading ? 'Генерируем…' : 'Скачать диплом'}
         </button>
-        <button
-          type="button"
-          disabled
-          title="Скоро"
-          className="px-6 py-3 rounded-md font-semibold border border-border bg-surface text-text disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Поделиться в Telegram
-          <span className="ml-2 text-xs font-normal opacity-80">Скоро</span>
-        </button>
+        {shareUrl ? (
+          <a
+            href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(`Мой AIQ: ${session.aiq}. ${title}.`)}`}
+            target="_blank"
+            rel="noreferrer"
+            className="px-6 py-3 rounded-md font-semibold border border-border bg-surface text-text text-center hover:bg-bg"
+          >
+            Поделиться в Telegram
+          </a>
+        ) : (
+          <button
+            type="button"
+            disabled
+            title="Опубликуйте, чтобы поделиться"
+            className="px-6 py-3 rounded-md font-semibold border border-border bg-surface text-text disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Поделиться в Telegram
+            <span className="ml-2 text-xs font-normal opacity-80">
+              после публикации
+            </span>
+          </button>
+        )}
       </section>
 
-      {publication === null ? (
-        <PublishForm onPublish={handlePublish} />
-      ) : (
-        <section className="flex flex-col gap-3 bg-surface border border-border rounded-md p-5 shadow-card">
-          <h2 className="text-lg font-semibold">Опубликовано</h2>
-          <p className="text-text">
-            {publication.percentile === null
-              ? `Вы среди первых ${publication.totalResults} прошедших.`
-              : `Вы лучше чем ${publication.percentile}% прошедших.`}
-          </p>
-        </section>
+      {!isShared && (
+        publication === null ? (
+          <PublishForm onPublish={handlePublish} />
+        ) : (
+          <section className="flex flex-col gap-3 bg-surface border border-border rounded-md p-5 shadow-card">
+            <h2 className="text-lg font-semibold">Опубликовано</h2>
+            <p className="text-text">
+              {publication.percentile === null
+                ? `Вы среди первых ${publication.totalResults} прошедших.`
+                : `Вы лучше чем ${publication.percentile}% прошедших.`}
+            </p>
+          </section>
+        )
       )}
 
       <div className="text-center">
