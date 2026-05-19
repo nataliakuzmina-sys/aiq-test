@@ -62,14 +62,16 @@ export function TestSession({ initialPairs }: TestSessionProps) {
   }
 
   function finalize(rounds: RoundResult[]) {
+    const now = Date.now();
     const session: SessionResult = {
       rounds,
       aiq: computeAIQ(rounds),
       modalityScores: computeModalityScores(rounds),
       biasProfile: computeBiasProfile(rounds),
+      completedAt: now,
     };
     sessionStorage.setItem(RESULT_KEY, JSON.stringify(session));
-    localStorage.setItem(COMPLETED_KEY, String(Date.now()));
+    localStorage.setItem(COMPLETED_KEY, String(now));
     router.replace('/result');
   }
 

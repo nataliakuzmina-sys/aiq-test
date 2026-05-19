@@ -1,6 +1,11 @@
+'use client';
+
+import { toPng } from 'html-to-image';
 import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import { getTitle } from '../lib/titles';
 import type { BiasProfile, Modality, SessionResult } from '../lib/types';
+import { Diploma } from './Diploma';
 
 interface ResultScreenProps {
   session: SessionResult;
@@ -44,9 +49,47 @@ const MODALITY_META: Record<Modality, ModalityMeta> = {
 
 const MODALITY_ORDER: readonly Modality[] = ['text', 'image', 'video', 'audio'];
 
+const DIPLOMA_WIDTH = 1080;
+const DIPLOMA_HEIGHT = 1920;
+
 export function ResultScreen({ session }: ResultScreenProps) {
   const title = getTitle(session.aiq, session.biasProfile);
   const bias = BIAS_META[session.biasProfile];
+
+  const previewBoxRef = useRef<HTMLDivElement>(null);
+  const diplomaRef = useRef<HTMLDivElement>(null);
+  const [previewScale, setPreviewScale] = useState(0);
+  const [downloading, setDownloading] = useState(false);
+
+  useEffect(() => {
+    const el = previewBoxRef.current;
+    if (!el) return;
+    const update = () => setPreviewScale(el.clientWidth / DIPLOMA_WIDTH);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  async function handleDownload() {
+    if (!diplomaRef.current || downloading) return;
+    setDownloading(true);
+    try {
+      const dataUrl = await toPng(diplomaRef.current, {
+        pixelRatio: 1,
+        cacheBust: true,
+        backgroundColor: '#FFFFFF',
+        width: DIPLOMA_WIDTH,
+        height: DIPLOMA_HEIGHT,
+      });
+      const link = document.createElement('a');
+      link.download = `aiq-${session.aiq}.png`;
+      link.href = dataUrl;
+      link.click();
+    } finally {
+      setDownloading(false);
+    }
+  }
 
   return (
     <main className="mx-auto w-full max-w-[900px] flex flex-col gap-10 p-4 md:p-8">
@@ -102,21 +145,35 @@ export function ResultScreen({ session }: ResultScreenProps) {
         </div>
       </section>
 
-      <section className="flex flex-col items-center gap-2">
-        <div className="w-full aspect-[3/2] max-w-[600px] bg-bg border-2 border-dashed border-border rounded-md flex items-center justify-center text-muted">
-          Здесь будет ваш диплом
+      <section className="flex flex-col items-center gap-3">
+        <h2 className="text-lg font-semibold self-start">Диплом</h2>
+        <div
+          ref={previewBoxRef}
+          className="w-full max-w-[400px] aspect-[9/16] overflow-hidden bg-bg rounded-md shadow-card border border-border"
+        >
+          {previewScale > 0 && (
+            <div
+              style={{
+                width: `${DIPLOMA_WIDTH}px`,
+                height: `${DIPLOMA_HEIGHT}px`,
+                transform: `scale(${previewScale})`,
+                transformOrigin: 'top left',
+              }}
+            >
+              <Diploma ref={diplomaRef} session={session} />
+            </div>
+          )}
         </div>
       </section>
 
       <section className="flex flex-col sm:flex-row gap-3 justify-center">
         <button
           type="button"
-          disabled
-          title="Скоро"
-          className="px-6 py-3 rounded-md font-semibold bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={handleDownload}
+          disabled={downloading}
+          className="px-6 py-3 rounded-md font-semibold bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-primary/90"
         >
-          Скачать диплом
-          <span className="ml-2 text-xs font-normal opacity-80">Скоро</span>
+          {downloading ? 'Генерируем…' : 'Скачать диплом'}
         </button>
         <button
           type="button"

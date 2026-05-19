@@ -43,6 +43,7 @@ export interface SessionResult {
   modalityScores: Record<Modality, number>;
   biasProfile: BiasProfile;
   percentile?: number;
+  completedAt?: number;
 }
 
 export const MODALITY_BY_TYPE: Record<ContentType, Modality> = {
