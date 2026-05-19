@@ -37,6 +37,12 @@ export interface RoundResult {
   userLabels: [Source | null, Source | null];
 }
 
+export interface Publication {
+  resultId: string;
+  percentile: number | null;
+  totalResults: number;
+}
+
 export interface SessionResult {
   rounds: RoundResult[];
   aiq: number;
@@ -44,6 +50,7 @@ export interface SessionResult {
   biasProfile: BiasProfile;
   percentile?: number;
   completedAt?: number;
+  publication?: Publication;
 }
 
 export const MODALITY_BY_TYPE: Record<ContentType, Modality> = {

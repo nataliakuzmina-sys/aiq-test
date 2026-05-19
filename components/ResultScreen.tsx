@@ -4,8 +4,14 @@ import { toPng } from 'html-to-image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { getTitle } from '../lib/titles';
-import type { BiasProfile, Modality, SessionResult } from '../lib/types';
+import type {
+  BiasProfile,
+  Modality,
+  Publication,
+  SessionResult,
+} from '../lib/types';
 import { Diploma } from './Diploma';
+import { PublishForm } from './PublishForm';
 
 interface ResultScreenProps {
   session: SessionResult;
@@ -51,6 +57,7 @@ const MODALITY_ORDER: readonly Modality[] = ['text', 'image', 'video', 'audio'];
 
 const DIPLOMA_WIDTH = 1080;
 const DIPLOMA_HEIGHT = 1920;
+const RESULT_KEY = 'aiq_session_result';
 
 export function ResultScreen({ session }: ResultScreenProps) {
   const title = getTitle(session.aiq, session.biasProfile);
@@ -60,6 +67,9 @@ export function ResultScreen({ session }: ResultScreenProps) {
   const diplomaRef = useRef<HTMLDivElement>(null);
   const [previewScale, setPreviewScale] = useState(0);
   const [downloading, setDownloading] = useState(false);
+  const [publication, setPublication] = useState<Publication | null>(
+    session.publication ?? null,
+  );
 
   useEffect(() => {
     const el = previewBoxRef.current;
@@ -89,6 +99,35 @@ export function ResultScreen({ session }: ResultScreenProps) {
     } finally {
       setDownloading(false);
     }
+  }
+
+  async function handlePublish(input: {
+    displayName?: string;
+    showInLeaderboard: boolean;
+  }) {
+    const body = {
+      aiq: session.aiq,
+      modalityText: session.modalityScores.text,
+      modalityImage: session.modalityScores.image,
+      modalityVideo: session.modalityScores.video,
+      modalityAudio: session.modalityScores.audio,
+      biasProfile: session.biasProfile,
+      displayName: input.displayName,
+      showInLeaderboard: input.showInLeaderboard,
+    };
+    const res = await fetch('/api/submit-result', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      throw new Error(errBody.error || 'Не удалось опубликовать. Попробуйте ещё раз.');
+    }
+    const data = (await res.json()) as Publication;
+    const updatedSession: SessionResult = { ...session, publication: data };
+    sessionStorage.setItem(RESULT_KEY, JSON.stringify(updatedSession));
+    setPublication(data);
   }
 
   return (
@@ -185,6 +224,19 @@ export function ResultScreen({ session }: ResultScreenProps) {
           <span className="ml-2 text-xs font-normal opacity-80">Скоро</span>
         </button>
       </section>
+
+      {publication === null ? (
+        <PublishForm onPublish={handlePublish} />
+      ) : (
+        <section className="flex flex-col gap-3 bg-surface border border-border rounded-md p-5 shadow-card">
+          <h2 className="text-lg font-semibold">Опубликовано</h2>
+          <p className="text-text">
+            {publication.percentile === null
+              ? `Вы среди первых ${publication.totalResults} прошедших.`
+              : `Вы лучше чем ${publication.percentile}% прошедших.`}
+          </p>
+        </section>
+      )}
 
       <div className="text-center">
         <Link href="/" className="text-primary underline underline-offset-4">

@@ -24,6 +24,13 @@ function isValidSession(value: unknown): value is SessionResult {
     if (typeof ms[m] !== 'number') return false;
   }
   if (!Array.isArray(v.rounds)) return false;
+  if (v.publication !== undefined && v.publication !== null) {
+    if (typeof v.publication !== 'object') return false;
+    const p = v.publication as Record<string, unknown>;
+    if (typeof p.resultId !== 'string') return false;
+    if (p.percentile !== null && typeof p.percentile !== 'number') return false;
+    if (typeof p.totalResults !== 'number') return false;
+  }
   return true;
 }
 
