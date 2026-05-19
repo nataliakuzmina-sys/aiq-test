@@ -60,7 +60,7 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
 
       <footer className="flex justify-between items-end text-3xl text-muted">
         <span>{date}</span>
-        <span>aiq.example</span>
+        <span>aiq-test-zeta.vercel.app</span>
       </footer>
     </div>
   );
