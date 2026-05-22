@@ -24,9 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru" className={manrope.variable}>
-      <body className="min-h-dvh flex flex-col">
+      <body className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
         <SiteHeader />
-        <div className="flex-1 flex flex-col">{children}</div>
+        <div className="flex flex-col">{children}</div>
         <SiteFooter />
       </body>
     </html>
