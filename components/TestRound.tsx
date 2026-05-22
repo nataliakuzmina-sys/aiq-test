@@ -86,7 +86,7 @@ export function TestRound({
   const title = ROUND_TITLES[pair.type];
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] flex flex-col gap-6 p-4 pb-16 md:p-8 md:pb-20">
+    <div className="mx-auto w-full max-w-[1200px] flex flex-col gap-6 p-4 pb-24 md:p-8 md:pb-32">
       <ProgressBar current={roundIndex + 1} total={totalRounds} />
 
       <header className="flex items-center justify-between gap-4">
