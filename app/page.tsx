@@ -69,16 +69,15 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-background-display border-y border-border-selector">
-        <div className="mx-auto w-full max-w-[1200px] px-4 md:px-8 py-12 md:py-16 flex flex-col gap-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-center">
+      <section className="bg-background-display rounded-[80px] shadow-card mt-4 px-8 md:px-16 lg:px-32 py-8 md:py-12 flex flex-col gap-8">
+          <h2 className="text-xl md:text-2xl font-bold text-center">
             Что мы измеряем
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {MODALITIES.map((m) => (
               <div
                 key={m.name}
-                className="flex flex-col items-center text-center gap-3 p-5 bg-background-primary rounded-sm border border-border-selector"
+                className="flex flex-col items-center text-center gap-3 p-5 bg-background-primary rounded-2xl"
               >
                 <Image
                   src={m.iconSrc}
@@ -94,7 +93,6 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
-        </div>
       </section>
     </main>
   );
