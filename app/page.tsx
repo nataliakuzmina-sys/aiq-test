@@ -69,7 +69,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-background-display rounded-[80px] shadow-card mt-4 px-8 md:px-16 lg:px-32 py-8 md:py-12 flex flex-col gap-8">
+      <section className="bg-background-display rounded-[80px] shadow-card -mt-16 relative z-10 px-8 md:px-16 lg:px-32 py-8 md:py-12 flex flex-col gap-8">
           <h2 className="text-xl md:text-2xl font-bold text-center">
             Что мы измеряем
           </h2>
