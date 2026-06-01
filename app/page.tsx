@@ -11,12 +11,12 @@ const MODALITIES: readonly ModalityCard[] = [
   {
     iconSrc: '/icons/text.svg',
     name: 'Тексты',
-    description: 'Описания товаров, банковские сообщения, заметки',
+    description: 'Описания товаров, сообщения, информационные тексты',
   },
   {
     iconSrc: '/icons/image.svg',
     name: 'Изображения',
-    description: 'Картины и пейзажи',
+    description: 'Картины и фотографии',
   },
   {
     iconSrc: '/icons/video.svg',
@@ -27,6 +27,26 @@ const MODALITIES: readonly ModalityCard[] = [
     iconSrc: '/icons/audio.svg',
     name: 'Аудио',
     description: 'Телефонные звонки и песни',
+  },
+];
+
+interface HowItWorksItem {
+  title: string;
+  text: string;
+}
+
+const HOW_IT_WORKS: readonly HowItWorksItem[] = [
+  {
+    title: '8 быстрых раундов',
+    text: 'В каждом раунде показаны два объекта из одной группы, на выбор отведено от 30 до 60 секунд.',
+  },
+  {
+    title: 'Случайный набор',
+    text: 'Система собирает раунды случайно, поэтому у каждого пользователя свой набор заданий. Вернуться назад и исправить ответ нельзя.',
+  },
+  {
+    title: 'Нет логики исключения',
+    text: 'В паре не обязательно будут «один человек и одна нейросеть». Вам могут также попасться два ИИ-варианта или две работы человека.',
   },
 ];
 
@@ -49,15 +69,12 @@ export default function LandingPage() {
         </picture>
         <div className="relative z-10 mx-auto w-full max-w-[900px] flex flex-col items-center text-center gap-6 px-4 md:px-8 py-16 md:py-24">
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            Различи ИИ от человека
-            <span className="block text-base font-normal text-text-secondary mt-2">
-              [заголовок для копирайтера]
-            </span>
+            Человек или ИИ? Проверьте свой AIQ
           </h1>
-          <p className="text-lg md:text-xl text-text-secondary max-w-[600px]">
-            Тест для маркетологов: 8 раундов на текст, изображения, видео и звук.
-            Узнайте свой балл AIQ и поделитесь дипломом.
-            <span className="block text-sm mt-2 italic">[подзаголовок для копирайтера]</span>
+          <p className="text-lg md:text-xl text-text-secondary max-w-[700px]">
+            Прокачайте ИИ-зоркость — определите, что создано человеком, а где
+            поработала нейросеть. Вас ждут 8 раундов с текстом, графикой, аудио и
+            видео. Докажите, что эксперта не обмануть, и заберите диплом.
           </p>
           <Link
             href="/test"
@@ -65,34 +82,58 @@ export default function LandingPage() {
           >
             Пройти тест
           </Link>
-          <p className="text-sm text-text-secondary">5–7 минут, 8 раундов, без регистрации</p>
         </div>
       </section>
 
       <section className="bg-background-display rounded-[80px] shadow-card -mt-16 relative z-10 px-8 md:px-16 lg:px-32 py-8 md:py-12 flex flex-col gap-8">
-          <h2 className="text-xl md:text-2xl font-bold text-center">
-            Что мы измеряем
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {MODALITIES.map((m) => (
-              <div
-                key={m.name}
-                className="flex flex-col items-center text-center gap-3 p-5 bg-background-primary rounded-2xl"
-              >
-                <Image
-                  src={m.iconSrc}
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="w-5 h-5"
-                  unoptimized
-                  aria-hidden="true"
-                />
-                <h3 className="text-lg font-semibold">{m.name}</h3>
-                <p className="text-sm text-text-secondary">{m.description}</p>
-              </div>
-            ))}
-          </div>
+        <h2 className="text-xl md:text-2xl font-bold text-center">
+          Что внутри теста
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {MODALITIES.map((m) => (
+            <div
+              key={m.name}
+              className="flex flex-col items-center text-center gap-3 p-5 bg-background-primary rounded-2xl"
+            >
+              <Image
+                src={m.iconSrc}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5"
+                unoptimized
+                aria-hidden="true"
+              />
+              <h3 className="text-lg font-semibold">{m.name}</h3>
+              <p className="text-sm text-text-secondary">{m.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="bg-background-display rounded-[80px] shadow-card mt-4 px-8 md:px-16 lg:px-32 py-8 md:py-12 flex flex-col gap-8">
+        <h2 className="text-xl md:text-2xl font-bold text-center">
+          Как всё устроено
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {HOW_IT_WORKS.map((item) => (
+            <div
+              key={item.title}
+              className="flex flex-col gap-2 p-5 bg-background-primary rounded-2xl"
+            >
+              <h3 className="text-lg font-semibold">{item.title}</h3>
+              <p className="text-sm text-text-secondary">{item.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center">
+          <Link
+            href="/test"
+            className="inline-block px-8 py-4 rounded-xs bg-button-primary text-text-inverse text-lg font-semibold shadow-elevated hover:bg-button-primary-hover"
+          >
+            Пройти тест
+          </Link>
+        </div>
       </section>
     </main>
   );
