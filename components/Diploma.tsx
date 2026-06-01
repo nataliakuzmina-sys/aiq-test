@@ -6,10 +6,16 @@ interface DiplomaProps {
   session: SessionResult;
 }
 
-const BIAS_DISPLAY: Record<BiasProfile, { icon: string; name: string }> = {
-  balanced: { icon: '⚖️', name: 'Сбалансированный' },
-  paranoid: { icon: '🔍', name: 'Параноик' },
-  trusting: { icon: '🤝', name: 'Доверчивый' },
+const BIAS_NAME: Record<BiasProfile, string> = {
+  balanced: 'Сбалансированный',
+  paranoid: 'Параноик',
+  trusting: 'Доверчивый',
+};
+
+const DIPLOMA_BACKGROUND: Record<BiasProfile, string> = {
+  balanced: '/diploma/diploma-balanced.png',
+  paranoid: '/diploma/diploma-paranoid.png',
+  trusting: '/diploma/diploma-trusting.png',
 };
 
 function formatDate(ts: number | undefined): string {
@@ -26,39 +32,64 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
   ref,
 ) {
   const title = getTitle(session.aiq, session.biasProfile);
-  const bias = BIAS_DISPLAY[session.biasProfile];
+  const biasName = BIAS_NAME[session.biasProfile];
   const date = formatDate(session.completedAt);
+  const bgSrc = DIPLOMA_BACKGROUND[session.biasProfile];
 
   return (
     <div
       ref={ref}
-      style={{ width: '1080px', height: '1920px', backgroundColor: '#FFFFFF' }}
-      className="flex flex-col justify-between p-20 text-text-primary"
+      style={{
+        width: '1080px',
+        height: '1920px',
+        backgroundColor: '#FFFFFF',
+        position: 'relative',
+      }}
+      className="text-text-primary"
     >
-      <header className="flex justify-between items-center text-4xl text-text-secondary font-semibold">
-        <span>AIQ</span>
-        <span>РБК × Kokoc</span>
-      </header>
-
-      <div className="flex flex-col items-center text-center gap-10">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={bgSrc}
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+        aria-hidden="true"
+      />
+      {/* Белая подложка с текстом — в верхней части PNG, ниже cobranding-логотипа */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '260px',
+          left: '80px',
+          right: '80px',
+          backgroundColor: '#FFFFFF',
+          borderRadius: '20px',
+          padding: '80px 60px',
+        }}
+        className="flex flex-col items-center text-center gap-10"
+      >
         <p className="text-6xl text-text-secondary">Ваш AIQ</p>
         <p
-          className="font-extrabold leading-none text-accent-primary tabular-nums"
-          style={{ fontSize: '20rem' }}
+          className="font-extrabold leading-none text-text-accent tabular-nums"
+          style={{ fontSize: '16rem' }}
         >
           {session.aiq}
         </p>
-        <p className="text-7xl font-bold max-w-[900px] leading-tight">
+        <p className="text-6xl font-bold max-w-[800px] leading-tight">
           {title}
         </p>
+        <p className="text-4xl font-semibold text-text-secondary">{biasName}</p>
       </div>
-
-      <div className="flex flex-col items-center gap-6">
-        <span className="text-9xl leading-none">{bias.icon}</span>
-        <p className="text-5xl font-semibold">{bias.name}</p>
-      </div>
-
-      <footer className="flex justify-between items-end text-3xl text-text-secondary">
+      {/* Низ: дата + домен на «рукопожатии» */}
+      <footer
+        style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}
+        className="flex justify-between items-end px-20 pb-16 text-3xl text-text-secondary"
+      >
         <span>{date}</span>
         <span>aiq-test-zeta.vercel.app</span>
       </footer>

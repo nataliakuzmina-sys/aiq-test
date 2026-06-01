@@ -117,7 +117,7 @@ export function TestRound({
           onClick={handleSubmit}
           disabled={submitDisabled}
           className={[
-            'px-6 py-3 rounded-sm font-semibold text-base transition-colors',
+            'px-6 py-3 rounded-xs font-semibold text-base transition-colors',
             'bg-button-primary text-text-inverse',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             'enabled:hover:bg-button-primary-hover',

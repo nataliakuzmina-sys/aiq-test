@@ -65,7 +65,7 @@ export default function ResultPage() {
       <p className="text-text-secondary">Сначала пройдите тест.</p>
       <Link
         href="/test"
-        className="px-5 py-3 rounded-sm bg-button-primary text-text-inverse font-semibold"
+        className="px-5 py-3 rounded-xs bg-button-primary text-text-inverse font-semibold"
       >
         Пройти тест
       </Link>

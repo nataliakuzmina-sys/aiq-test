@@ -9,7 +9,9 @@ export default function MethodologyPage() {
   return (
     <main className="mx-auto w-full max-w-[800px] flex flex-col gap-10 p-4 md:p-8">
       <header className="flex flex-col gap-3">
-        <h1 className="text-3xl md:text-4xl font-bold">Методология</h1>
+        <h1 className="text-4xl md:text-6xl font-extrabold text-text-accent leading-tight">
+          Методология
+        </h1>
         <p className="text-text-secondary text-lg">
           Как устроен тест AIQ, откуда взят контент и по какой формуле считается балл.
         </p>
@@ -93,7 +95,10 @@ export default function MethodologyPage() {
       </Section>
 
       <div className="text-center pt-4">
-        <Link href="/" className="text-text-accent underline underline-offset-4">
+        <Link
+          href="/"
+          className="inline-block px-6 py-3 rounded-xs bg-button-primary text-text-inverse font-semibold hover:bg-button-primary-hover"
+        >
           На главную
         </Link>
       </div>

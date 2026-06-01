@@ -91,13 +91,13 @@ export function TestSession({ initialPairs }: TestSessionProps) {
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             href="/"
-            className="px-5 py-3 rounded-sm bg-button-primary text-text-inverse font-semibold text-center hover:bg-button-primary-hover"
+            className="px-5 py-3 rounded-xs bg-button-primary text-text-inverse font-semibold text-center hover:bg-button-primary-hover"
           >
             На главную
           </Link>
           <Link
             href="/leaderboard"
-            className="px-5 py-3 rounded-sm border border-border-selector bg-background-display text-text-primary font-semibold text-center hover:bg-background-primary"
+            className="px-5 py-3 rounded-xs border border-border-selector bg-background-display text-text-primary font-semibold text-center hover:bg-background-primary"
           >
             Открыть лидерборд
           </Link>

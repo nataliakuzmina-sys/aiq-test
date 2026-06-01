@@ -24,7 +24,7 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
         aria-label={`Раунд ${current} из ${total}`}
       >
         <div
-          className="h-full bg-accent-primary transition-[width] duration-300"
+          className="h-full bg-button-primary transition-[width] duration-300"
           style={{ width: `${pct}%` }}
         />
       </div>

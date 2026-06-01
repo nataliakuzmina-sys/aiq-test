@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import type { ContentItem, ContentType, Source } from '../lib/types';
 import { SourceToggle } from './SourceToggle';
 
@@ -11,17 +12,17 @@ interface PairCardAudioProps {
 }
 
 interface AudioMeta {
-  icon: string;
+  iconSrc: string;
   label: string;
 }
 
 const AUDIO_META: Partial<Record<ContentType, AudioMeta>> = {
-  'phone-call-a': { icon: '📞', label: 'Звонок' },
-  'phone-call-b': { icon: '📞', label: 'Звонок' },
-  song: { icon: '🎵', label: 'Песня' },
+  'phone-call-a': { iconSrc: '/icons/call.svg', label: 'Звонок' },
+  'phone-call-b': { iconSrc: '/icons/call.svg', label: 'Звонок' },
+  song: { iconSrc: '/icons/audio.svg', label: 'Песня' },
 };
 
-const FALLBACK: AudioMeta = { icon: '🔊', label: 'Аудио' };
+const FALLBACK: AudioMeta = { iconSrc: '/icons/audio.svg', label: 'Аудио' };
 
 export function PairCardAudio({
   item,
@@ -34,9 +35,15 @@ export function PairCardAudio({
   return (
     <article className="flex flex-col gap-4 h-full bg-background-display border border-border-selector rounded-sm p-5 shadow-card">
       <div className="flex flex-col items-center justify-center gap-3 aspect-[4/3] w-full bg-background-primary rounded-xs p-4">
-        <span className="text-6xl leading-none" aria-hidden="true">
-          {meta.icon}
-        </span>
+        <Image
+          src={meta.iconSrc}
+          alt=""
+          width={64}
+          height={64}
+          className="w-16 h-16"
+          unoptimized
+          aria-hidden="true"
+        />
         <span className="text-text-secondary font-medium">{meta.label}</span>
         <audio
           src={item.url ?? ''}
