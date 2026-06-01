@@ -18,8 +18,8 @@ export function PairCardImage({
   disabled,
 }: PairCardImageProps) {
   return (
-    <article className="flex flex-col gap-4 h-full bg-surface border border-border rounded-md p-5 shadow-card">
-      <div className="relative aspect-[4/3] w-full bg-bg rounded-sm overflow-hidden">
+    <article className="flex flex-col gap-4 h-full bg-background-display border border-border-selector rounded-sm p-5 shadow-card">
+      <div className="relative aspect-[4/3] w-full bg-background-primary rounded-xs overflow-hidden">
         <Image
           src={item.url ?? ''}
           alt="Изображение для оценки"

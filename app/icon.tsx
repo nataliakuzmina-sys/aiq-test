@@ -13,7 +13,7 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: '#1F3A60',
+          background: '#FF4747',
           color: '#FFFFFF',
           fontSize: 14,
           fontWeight: 800,

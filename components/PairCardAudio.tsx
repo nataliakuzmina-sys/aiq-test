@@ -32,12 +32,12 @@ export function PairCardAudio({
   const meta = AUDIO_META[item.type] ?? FALLBACK;
 
   return (
-    <article className="flex flex-col gap-4 h-full bg-surface border border-border rounded-md p-5 shadow-card">
-      <div className="flex flex-col items-center justify-center gap-3 aspect-[4/3] w-full bg-bg rounded-sm p-4">
+    <article className="flex flex-col gap-4 h-full bg-background-display border border-border-selector rounded-sm p-5 shadow-card">
+      <div className="flex flex-col items-center justify-center gap-3 aspect-[4/3] w-full bg-background-primary rounded-xs p-4">
         <span className="text-6xl leading-none" aria-hidden="true">
           {meta.icon}
         </span>
-        <span className="text-muted font-medium">{meta.label}</span>
+        <span className="text-text-secondary font-medium">{meta.label}</span>
         <audio
           src={item.url ?? ''}
           controls

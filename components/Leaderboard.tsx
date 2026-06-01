@@ -37,7 +37,7 @@ interface LeaderboardProps {
 export function Leaderboard({ entries }: LeaderboardProps) {
   if (entries.length === 0) {
     return (
-      <div className="text-center text-muted py-8 bg-surface border border-border rounded-md">
+      <div className="text-center text-text-secondary py-8 bg-background-display border border-border-selector rounded-sm">
         Пока никто не публиковал результаты. Будьте первым.
       </div>
     );
@@ -46,7 +46,7 @@ export function Leaderboard({ entries }: LeaderboardProps) {
     <div className="overflow-x-auto">
       <table className="w-full border-collapse text-sm md:text-base">
         <thead>
-          <tr className="border-b-2 border-border text-left text-sm text-muted">
+          <tr className="border-b-2 border-border-selector text-left text-sm text-text-secondary">
             <th className="py-2 px-3 w-12">#</th>
             <th className="py-2 px-3">Имя</th>
             <th className="py-2 px-3 w-20 text-right">AIQ</th>
@@ -56,17 +56,17 @@ export function Leaderboard({ entries }: LeaderboardProps) {
         </thead>
         <tbody>
           {entries.map((e) => (
-            <tr key={e.id} className="border-b border-border">
-              <td className="py-3 px-3 font-mono tabular-nums text-muted">
+            <tr key={e.id} className="border-b border-border-selector">
+              <td className="py-3 px-3 font-mono tabular-nums text-text-secondary">
                 {e.rank}
               </td>
               <td className="py-3 px-3">
                 <div className="font-semibold">{e.displayName}</div>
                 {e.isExpert && e.expertTitle && (
-                  <div className="text-xs text-muted">{e.expertTitle}</div>
+                  <div className="text-xs text-text-secondary">{e.expertTitle}</div>
                 )}
               </td>
-              <td className="py-3 px-3 text-right font-mono tabular-nums font-semibold text-primary">
+              <td className="py-3 px-3 text-right font-mono tabular-nums font-semibold text-text-primary">
                 {e.aiq}
               </td>
               <td className="py-3 px-3 hidden sm:table-cell">
@@ -75,7 +75,7 @@ export function Leaderboard({ entries }: LeaderboardProps) {
                 </span>
                 {BIAS_NAME[e.biasProfile]}
               </td>
-              <td className="py-3 px-3 text-muted hidden md:table-cell">
+              <td className="py-3 px-3 text-text-secondary hidden md:table-cell">
                 {formatDate(e.createdAt)}
               </td>
             </tr>

@@ -33,17 +33,17 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
     <div
       ref={ref}
       style={{ width: '1080px', height: '1920px', backgroundColor: '#FFFFFF' }}
-      className="flex flex-col justify-between p-20 text-text"
+      className="flex flex-col justify-between p-20 text-text-primary"
     >
-      <header className="flex justify-between items-center text-4xl text-muted font-semibold">
+      <header className="flex justify-between items-center text-4xl text-text-secondary font-semibold">
         <span>AIQ</span>
         <span>РБК × Kokoc</span>
       </header>
 
       <div className="flex flex-col items-center text-center gap-10">
-        <p className="text-6xl text-muted">Ваш AIQ</p>
+        <p className="text-6xl text-text-secondary">Ваш AIQ</p>
         <p
-          className="font-extrabold leading-none text-primary tabular-nums"
+          className="font-extrabold leading-none text-accent-primary tabular-nums"
           style={{ fontSize: '20rem' }}
         >
           {session.aiq}
@@ -58,7 +58,7 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
         <p className="text-5xl font-semibold">{bias.name}</p>
       </div>
 
-      <footer className="flex justify-between items-end text-3xl text-muted">
+      <footer className="flex justify-between items-end text-3xl text-text-secondary">
         <span>{date}</span>
         <span>aiq-test-zeta.vercel.app</span>
       </footer>

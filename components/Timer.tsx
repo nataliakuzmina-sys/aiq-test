@@ -48,10 +48,10 @@ export function Timer({ duration, onTimeUp, className }: TimerProps) {
       aria-live="polite"
       aria-label={`Осталось ${remaining} секунд`}
     >
-      <span className={danger ? 'text-danger font-bold' : 'text-text'}>
+      <span className={danger ? 'text-text-accent font-bold' : 'text-text-primary'}>
         {display}
       </span>
-      <span className="ml-1 text-muted text-sm">с</span>
+      <span className="ml-1 text-text-secondary text-sm">с</span>
     </div>
   );
 }

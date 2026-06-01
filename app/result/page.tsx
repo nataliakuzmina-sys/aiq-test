@@ -62,10 +62,10 @@ export default function ResultPage() {
   return (
     <main className="mx-auto w-full max-w-[600px] flex flex-col items-center gap-4 p-8 text-center">
       <h1 className="text-2xl font-bold">Нет результата</h1>
-      <p className="text-muted">Сначала пройдите тест.</p>
+      <p className="text-text-secondary">Сначала пройдите тест.</p>
       <Link
         href="/test"
-        className="px-5 py-3 rounded-md bg-primary text-white font-semibold"
+        className="px-5 py-3 rounded-sm bg-button-primary text-text-inverse font-semibold"
       >
         Пройти тест
       </Link>

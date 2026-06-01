@@ -117,11 +117,11 @@ export function TestRound({
           onClick={handleSubmit}
           disabled={submitDisabled}
           className={[
-            'px-6 py-3 rounded-md font-semibold text-base transition-colors',
-            'bg-primary text-white',
+            'px-6 py-3 rounded-sm font-semibold text-base transition-colors',
+            'bg-button-primary text-text-inverse',
             'disabled:opacity-50 disabled:cursor-not-allowed',
-            'enabled:hover:bg-primary/90',
-            'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+            'enabled:hover:bg-button-primary-hover',
+            'focus-visible:ring-2 focus-visible:ring-button-primary focus-visible:ring-offset-2',
           ].join(' ')}
         >
           Далее
@@ -132,7 +132,7 @@ export function TestRound({
         <div
           role="status"
           aria-live="assertive"
-          className="fixed left-1/2 top-8 -translate-x-1/2 z-50 bg-text text-surface px-4 py-2 rounded-md shadow-elevated"
+          className="fixed left-1/2 top-8 -translate-x-1/2 z-50 bg-text-primary text-text-inverse px-4 py-2 rounded-sm shadow-elevated"
         >
           Время истекло
         </div>

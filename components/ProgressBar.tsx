@@ -9,14 +9,14 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
   const pct = Math.round((current / total) * 100);
   return (
     <div className="w-full">
-      <div className="flex justify-between text-sm text-muted mb-2">
+      <div className="flex justify-between text-sm text-text-secondary mb-2">
         <span>
           Раунд {current} из {total}
         </span>
         <span aria-hidden="true">{pct}%</span>
       </div>
       <div
-        className="h-2 w-full bg-border rounded-sm overflow-hidden"
+        className="h-2 w-full bg-border-selector rounded-xs overflow-hidden"
         role="progressbar"
         aria-valuenow={current}
         aria-valuemin={0}
@@ -24,7 +24,7 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
         aria-label={`Раунд ${current} из ${total}`}
       >
         <div
-          className="h-full bg-primary transition-[width] duration-300"
+          className="h-full bg-accent-primary transition-[width] duration-300"
           style={{ width: `${pct}%` }}
         />
       </div>

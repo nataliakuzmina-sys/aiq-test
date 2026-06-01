@@ -44,7 +44,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4 bg-surface border border-border rounded-md p-5 shadow-card"
+      className="flex flex-col gap-4 bg-background-display border border-border-selector rounded-sm p-5 shadow-card"
     >
       <h2 className="text-lg font-semibold">Опубликовать результат</h2>
 
@@ -58,7 +58,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
           onChange={(e) => setName(e.target.value)}
           maxLength={50}
           disabled={busy}
-          className="px-3 py-2 rounded-md border border-border bg-bg text-text disabled:opacity-50"
+          className="px-3 py-2 rounded-sm border border-border-selector bg-background-primary text-text-primary disabled:opacity-50"
           aria-describedby={error ? 'publish-error' : undefined}
         />
       </label>
@@ -75,7 +75,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
       </label>
 
       {error && (
-        <p id="publish-error" role="alert" className="text-danger text-sm">
+        <p id="publish-error" role="alert" className="text-text-accent text-sm">
           {error}
         </p>
       )}
@@ -83,7 +83,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
       <button
         type="submit"
         disabled={busy}
-        className="self-start px-6 py-3 rounded-md font-semibold bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-primary/90"
+        className="self-start px-6 py-3 rounded-sm font-semibold bg-button-primary text-text-inverse disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-button-primary-hover"
       >
         {busy ? 'Публикуем…' : 'Опубликовать'}
       </button>

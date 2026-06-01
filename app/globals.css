@@ -3,29 +3,168 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #1F3A60;
-  --color-accent: #E63946;
-  --color-bg: #FAFAFA;
-  --color-surface: #FFFFFF;
-  --color-text: #1A1A1A;
-  --color-muted: #6B6B6B;
-  --color-border: #E5E5E5;
-  --color-success: #2A9D8F;
-  --color-danger: #E63946;
+  /* === Colors === */
 
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  /* Background */
+  --background-primary: #F1F1F1;
+  --background-display: #FFFFFF;
+  --background-tertiary: #F4F5F2;
+  --background-tertiary-hover: #EFF0EC;
 
+  /* Accent */
+  --accent-primary: #06E19B;
+  --accent-light: #F0F9E5;
+
+  /* Button */
+  --button-primary: #FF4747;
+  --button-primary-hover: #FF7777;
+  --button-primary-disabled: #FFC8C8;
+
+  /* Text */
+  --text-primary: #000000;
+  --text-secondary: #84867D;
+  --text-inverse: #FFFFFF;
+  --text-accent: #FF4747;
+  --text-accent-hover: #FF7777;
+  --text-accent-disabled: #FFC8C8;
+
+  /* Border */
+  --border-selector: #E6E6E6;
+
+  /* Selector */
+  --selector-primary: #000000;
+
+  /* === Radius === */
+  --radius-xs: 12px;
+  --radius-sm: 20px;
+  --radius-md: 36px;
+  --radius-lg: 80px;
+
+  /* === Spacing === */
+  --spacing-xs: 24px;
+  --spacing-sm: 32px;
+  --spacing-md: 40px;
+  --spacing-lg: 72px;
+
+  /* === Breakpoints === */
+  --breakpoint-mobile: 375px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1440px;
+
+  /* === Shadows === */
+  /* TODO: уточнить у дизайнера — отсутствуют в новой палитре */
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
   --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.10);
 
+  /* === Fonts === */
   --font-display: var(--font-body);
 }
 
 html,
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--background-primary);
+  color: var(--text-primary);
   font-family: var(--font-body), system-ui, sans-serif;
+}
+
+/* === Typography (mobile-first) === */
+.text-display-number {
+  font-size: 120px;
+  line-height: 120px;
+}
+.text-h1 {
+  font-size: 24px;
+  line-height: 24px;
+}
+.text-h2 {
+  font-size: 20px;
+  line-height: 26px;
+}
+.text-h3 {
+  font-size: 16px;
+  line-height: 26px;
+}
+.text-body {
+  font-size: 14px;
+  line-height: 22px;
+}
+.text-body-2 {
+  font-size: 12px;
+  line-height: 20px;
+}
+.text-button {
+  font-size: 14px;
+  line-height: 26px;
+}
+.text-percent-table {
+  font-size: 14px;
+  line-height: 24px;
+}
+.text-caption {
+  font-size: 12px;
+  line-height: 18px;
+}
+.text-timer {
+  font-size: 22px;
+  line-height: 20px;
+}
+
+@media (min-width: 768px) {
+  /* Tablet */
+  .text-display-number {
+    font-size: 160px;
+    line-height: 160px;
+  }
+  .text-h1 {
+    font-size: 38px;
+    line-height: 38px;
+  }
+  .text-h2 {
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .text-h3 {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .text-body {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .text-body-2 {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .text-button {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .text-percent-table {
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .text-caption {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .text-timer {
+    font-size: 28px;
+    line-height: 20px;
+  }
+}
+
+@media (min-width: 1440px) {
+  /* Desktop — отличия от Tablet только в h1, body, body-2 */
+  .text-h1 {
+    font-size: 60px;
+    line-height: 60px;
+  }
+  .text-body {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .text-body-2 {
+    font-size: 16px;
+    line-height: 22px;
+  }
 }

@@ -85,19 +85,19 @@ export function TestSession({ initialPairs }: TestSessionProps) {
         <h1 className="text-2xl md:text-3xl font-bold">
           Вы уже прошли AIQ сегодня
         </h1>
-        <p className="text-muted">
+        <p className="text-text-secondary">
           Загляните завтра — попадётся другая комбинация вопросов.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
             href="/"
-            className="px-5 py-3 rounded-md bg-primary text-white font-semibold text-center hover:bg-primary/90"
+            className="px-5 py-3 rounded-sm bg-button-primary text-text-inverse font-semibold text-center hover:bg-button-primary-hover"
           >
             На главную
           </Link>
           <Link
             href="/leaderboard"
-            className="px-5 py-3 rounded-md border border-border bg-surface text-text font-semibold text-center hover:bg-bg"
+            className="px-5 py-3 rounded-sm border border-border-selector bg-background-display text-text-primary font-semibold text-center hover:bg-background-primary"
           >
             Открыть лидерборд
           </Link>

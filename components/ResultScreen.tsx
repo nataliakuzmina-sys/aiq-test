@@ -146,20 +146,20 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
   return (
     <main className="mx-auto w-full max-w-[900px] flex flex-col gap-10 p-4 md:p-8">
       <section className="flex flex-col items-center gap-3 text-center">
-        <p className="text-muted text-lg">Ваш AIQ</p>
-        <p className="text-8xl md:text-9xl font-bold leading-none text-primary tabular-nums">
+        <p className="text-text-secondary text-lg">Ваш AIQ</p>
+        <p className="text-8xl md:text-9xl font-bold leading-none text-accent-primary tabular-nums">
           {session.aiq}
         </p>
         <p className="text-xl md:text-2xl font-semibold mt-2">{title}</p>
       </section>
 
-      <section className="flex flex-col sm:flex-row items-center gap-4 bg-surface border border-border rounded-md p-5 shadow-card">
+      <section className="flex flex-col sm:flex-row items-center gap-4 bg-background-display border border-border-selector rounded-sm p-5 shadow-card">
         <span className="text-5xl leading-none" aria-hidden="true">
           {bias.icon}
         </span>
         <div className="text-center sm:text-left">
           <p className="text-lg font-semibold">{bias.name}</p>
-          <p className="text-muted text-sm">{bias.hint}</p>
+          <p className="text-text-secondary text-sm">{bias.hint}</p>
         </div>
       </section>
 
@@ -174,9 +174,9 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
                 <span className="text-2xl w-8 text-center" aria-hidden="true">
                   {meta.icon}
                 </span>
-                <span className="w-28 text-text">{meta.name}</span>
+                <span className="w-28 text-text-primary">{meta.name}</span>
                 <div
-                  className="flex-1 h-2 bg-border rounded-sm overflow-hidden"
+                  className="flex-1 h-2 bg-border-selector rounded-xs overflow-hidden"
                   role="progressbar"
                   aria-valuenow={score}
                   aria-valuemin={0}
@@ -184,11 +184,11 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
                   aria-label={`${meta.name}: ${score} из 100`}
                 >
                   <div
-                    className="h-full bg-primary"
+                    className="h-full bg-accent-primary"
                     style={{ width: `${score}%` }}
                   />
                 </div>
-                <span className="w-12 text-right font-mono tabular-nums text-text">
+                <span className="w-12 text-right font-mono tabular-nums text-text-primary">
                   {score}
                 </span>
               </div>
@@ -201,7 +201,7 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
         <h2 className="text-lg font-semibold self-start">Диплом</h2>
         <div
           ref={previewBoxRef}
-          className="w-full max-w-[400px] aspect-[9/16] overflow-hidden bg-bg rounded-md shadow-card border border-border"
+          className="w-full max-w-[400px] aspect-[9/16] overflow-hidden bg-background-primary rounded-sm shadow-card border border-border-selector"
         >
           {previewScale > 0 && (
             <div
@@ -223,7 +223,7 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
           type="button"
           onClick={handleDownload}
           disabled={downloading}
-          className="px-6 py-3 rounded-md font-semibold bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-primary/90"
+          className="px-6 py-3 rounded-sm font-semibold bg-button-primary text-text-inverse disabled:opacity-50 disabled:cursor-not-allowed enabled:hover:bg-button-primary-hover"
         >
           {downloading ? 'Генерируем…' : 'Скачать диплом'}
         </button>
@@ -232,7 +232,7 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
             href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(`Мой AIQ: ${session.aiq}. ${title}.`)}`}
             target="_blank"
             rel="noreferrer"
-            className="px-6 py-3 rounded-md font-semibold border border-border bg-surface text-text text-center hover:bg-bg"
+            className="px-6 py-3 rounded-sm font-semibold border border-border-selector bg-background-display text-text-primary text-center hover:bg-background-primary"
           >
             Поделиться в Telegram
           </a>
@@ -241,7 +241,7 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
             type="button"
             disabled
             title="Опубликуйте, чтобы поделиться"
-            className="px-6 py-3 rounded-md font-semibold border border-border bg-surface text-text disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 rounded-sm font-semibold border border-border-selector bg-background-display text-text-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Поделиться в Telegram
             <span className="ml-2 text-xs font-normal opacity-80">
@@ -255,9 +255,9 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
         publication === null ? (
           <PublishForm onPublish={handlePublish} />
         ) : (
-          <section className="flex flex-col gap-3 bg-surface border border-border rounded-md p-5 shadow-card">
+          <section className="flex flex-col gap-3 bg-background-display border border-border-selector rounded-sm p-5 shadow-card">
             <h2 className="text-lg font-semibold">Опубликовано</h2>
-            <p className="text-text">
+            <p className="text-text-primary">
               {publication.percentile === null
                 ? `Вы среди первых ${publication.totalResults} прошедших.`
                 : `Вы лучше чем ${publication.percentile}% прошедших.`}
@@ -267,7 +267,7 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
       )}
 
       <div className="text-center">
-        <Link href="/" className="text-primary underline underline-offset-4">
+        <Link href="/" className="text-text-accent underline underline-offset-4">
           На главную
         </Link>
       </div>

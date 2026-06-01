@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Manrope } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
 import './globals.css';
 
-const manrope = Manrope({
+const montserrat = Montserrat({
   subsets: ['latin', 'cyrillic'],
-  weight: ['400', '600', '800'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-body',
   display: 'swap',
 });
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ru" className={manrope.variable}>
+    <html lang="ru" className={montserrat.variable}>
       <body className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
         <SiteHeader />
         <div className="flex flex-col">{children}</div>

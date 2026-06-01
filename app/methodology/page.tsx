@@ -10,7 +10,7 @@ export default function MethodologyPage() {
     <main className="mx-auto w-full max-w-[800px] flex flex-col gap-10 p-4 md:p-8">
       <header className="flex flex-col gap-3">
         <h1 className="text-3xl md:text-4xl font-bold">Методология</h1>
-        <p className="text-muted text-lg">
+        <p className="text-text-secondary text-lg">
           Как устроен тест AIQ, откуда взят контент и по какой формуле считается балл.
         </p>
       </header>
@@ -36,7 +36,7 @@ export default function MethodologyPage() {
       </Section>
 
       <Section title="Откуда контент">
-        <p className="text-muted italic">
+        <p className="text-text-secondary italic">
           [Заглушка для копирайтера] Описать, какие ИИ-модели использованы
           (например, для текстов, изображений, видео и аудио), и откуда взят
           человеческий материал (открытые источники, договорённости с авторами).
@@ -76,7 +76,7 @@ export default function MethodologyPage() {
       </Section>
 
       <Section title="Кто стоит за исследованием">
-        <p className="text-muted italic">
+        <p className="text-text-secondary italic">
           [Заглушка для копирайтера] Короткое описание партнёрства РБК × Kokoc
           и того, зачем мы это делаем (зачем индустрии замерять различимость
           ИИ-контента).
@@ -86,14 +86,14 @@ export default function MethodologyPage() {
       <Section title="Контакты для прессы">
         <p>
           По вопросам публикаций и комментариев:{' '}
-          <a href="mailto:press@aiq.example" className="text-primary underline">
+          <a href="mailto:press@aiq.example" className="text-text-accent underline">
             press@aiq.example
           </a>
         </p>
       </Section>
 
       <div className="text-center pt-4">
-        <Link href="/" className="text-primary underline underline-offset-4">
+        <Link href="/" className="text-text-accent underline underline-offset-4">
           На главную
         </Link>
       </div>
@@ -111,7 +111,7 @@ function Section({
   return (
     <section className="flex flex-col gap-3">
       <h2 className="text-xl md:text-2xl font-bold">{title}</h2>
-      <div className="flex flex-col gap-3 text-text leading-relaxed">
+      <div className="flex flex-col gap-3 text-text-primary leading-relaxed">
         {children}
       </div>
     </section>

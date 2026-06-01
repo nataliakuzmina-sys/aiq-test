@@ -64,10 +64,10 @@ function Option({ name, source, label, checked, onChange }: OptionProps) {
       />
       <span
         className={[
-          'block w-full text-center px-4 py-3 rounded-md border font-medium select-none cursor-pointer transition-colors',
-          'border-border bg-surface text-text',
-          'peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary',
-          'peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2',
+          'block w-full text-center px-4 py-3 rounded-sm border font-medium select-none cursor-pointer transition-colors',
+          'border-border-selector bg-background-display text-text-primary',
+          'peer-checked:bg-selector-primary peer-checked:text-text-inverse peer-checked:border-selector-primary',
+          'peer-focus-visible:ring-2 peer-focus-visible:ring-selector-primary peer-focus-visible:ring-offset-2',
           'peer-disabled:opacity-50 peer-disabled:cursor-not-allowed',
         ].join(' ')}
       >
