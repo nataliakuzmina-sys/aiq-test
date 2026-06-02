@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { buildAllPairs, selectSessionPairs } from './pairs';
+import { buildAllPairs, selectSessionPairs, toPublic } from './pairs';
 import type { ContentItem, ContentType, Modality } from './types';
 import contentData from './content.json';
 
@@ -7,9 +7,9 @@ const items = contentData.items as ContentItem[];
 const allPairs = buildAllPairs(items);
 
 describe('buildAllPairs', () => {
-  it('возвращает 47 пар для текущего банка из 34 единиц', () => {
-    expect(items.length).toBe(34);
-    expect(allPairs.length).toBe(47);
+  it('возвращает 61 пар для текущего банка из 35 единиц', () => {
+    expect(items.length).toBe(35);
+    expect(allPairs.length).toBe(61);
   });
 
   it('распределение по типам соответствует C(n,2)', () => {
@@ -18,13 +18,12 @@ describe('buildAllPairs', () => {
     expect(counts).toEqual({
       marketplace: 3,
       bank: 3,
-      'ai-note': 3,
+      note: 3,
       painting: 15,
-      landscape: 10,
-      'cat-video': 3,
-      'ad-video': 1,
-      'phone-call-a': 3,
-      'phone-call-b': 3,
+      landscape: 15,
+      catvideo: 3,
+      advideo: 1,
+      phonecall: 15,
       song: 3,
     });
   });
@@ -47,12 +46,14 @@ describe('buildAllPairs', () => {
     expect(idsA).toEqual(idsB);
   });
 
-  it('id пары имеет формат {type}-{idA}-{idB} с лексически отсортированными id', () => {
+  it('id пары имеет формат {idA}-{idB} (лексически отсортированные), без префикса type', () => {
     for (const p of allPairs) {
       const [a, b] = p.items;
       const first = a.id < b.id ? a.id : b.id;
       const second = a.id < b.id ? b.id : a.id;
-      expect(p.id).toBe(`${p.type}-${first}-${second}`);
+      expect(p.id).toBe(`${first}-${second}`);
+      // id не должен содержать имя type (раскрытие подкатегории)
+      expect(p.id).not.toContain(p.type);
     }
   });
 
@@ -100,11 +101,19 @@ describe('selectSessionPairs', () => {
     }
   });
 
-  it('в video всегда ровно 1 cat-video + 1 ad-video', () => {
+  it('в video всегда ровно 1 catvideo + 1 advideo', () => {
     for (let i = 0; i < RUNS; i++) {
       const s = selectSessionPairs(allPairs);
       const types = s.filter((p) => p.modality === 'video').map((p) => p.type).sort();
-      expect(types).toEqual(['ad-video', 'cat-video']);
+      expect(types).toEqual(['advideo', 'catvideo']);
+    }
+  });
+
+  it('в audio всегда ровно 1 phonecall + 1 song', () => {
+    for (let i = 0; i < RUNS; i++) {
+      const s = selectSessionPairs(allPairs);
+      const types = s.filter((p) => p.modality === 'audio').map((p) => p.type).sort();
+      expect(types).toEqual(['phonecall', 'song']);
     }
   });
 
@@ -112,14 +121,6 @@ describe('selectSessionPairs', () => {
     for (let i = 0; i < RUNS; i++) {
       const s = selectSessionPairs(allPairs);
       const types = s.filter((p) => p.modality === 'text').map((p) => p.type);
-      expect(new Set(types).size).toBe(2);
-    }
-  });
-
-  it('audio-пары всегда из 2 разных типов (при доступных 3 типах по ≥3 пары)', () => {
-    for (let i = 0; i < RUNS; i++) {
-      const s = selectSessionPairs(allPairs);
-      const types = s.filter((p) => p.modality === 'audio').map((p) => p.type);
       expect(new Set(types).size).toBe(2);
     }
   });
@@ -150,6 +151,39 @@ describe('selectSessionPairs', () => {
       const types = new Set(textPairs.map((p) => p.type as ContentType));
       expect(types.size).toBe(1);
       expect(textPairs[0]?.id).not.toBe(textPairs[1]?.id);
+    }
+  });
+});
+
+describe('toPublic', () => {
+  it('убирает source и type из items, добавляет roundTitle', () => {
+    for (const pair of allPairs) {
+      const pub = toPublic(pair);
+      expect(pub.id).toBe(pair.id);
+      expect(pub.modality).toBe(pair.modality);
+      expect(typeof pub.roundTitle).toBe('string');
+      expect(pub.roundTitle.length).toBeGreaterThan(0);
+      for (const it of pub.items) {
+        expect(it).not.toHaveProperty('source');
+        expect(it).not.toHaveProperty('type');
+        expect(it.id).toMatch(/^[a-f0-9]{12}$/);
+      }
+    }
+  });
+
+  it('добавляет audioKind только для аудио (call/song)', () => {
+    for (const pair of allPairs) {
+      const pub = toPublic(pair);
+      if (pair.modality === 'audio') {
+        const expected = pair.type === 'phonecall' ? 'call' : 'song';
+        for (const it of pub.items) {
+          expect(it.audioKind).toBe(expected);
+        }
+      } else {
+        for (const it of pub.items) {
+          expect(it.audioKind).toBeUndefined();
+        }
+      }
     }
   });
 });

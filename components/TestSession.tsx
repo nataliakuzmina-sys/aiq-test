@@ -3,31 +3,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import {
-  computeAIQ,
-  computeBiasProfile,
-  computeModalityScores,
-} from '../lib/scoring';
 import type {
-  Modality,
-  Pair,
-  RoundResult,
+  PublicPair,
+  RoundSubmission,
   SessionResult,
 } from '../lib/types';
 import { TestRound } from './TestRound';
 
 interface TestSessionProps {
-  initialPairs: Pair[];
+  initialPairs: PublicPair[];
 }
 
-type Phase = 'check' | 'active' | 'blocked';
-
-const DURATIONS: Record<Modality, number> = {
-  text: 45,
-  image: 30,
-  video: 60,
-  audio: 50,
-};
+type Phase = 'check' | 'active' | 'blocked' | 'finalizing';
 
 const ANTI_CHEAT_WINDOW_MS = 24 * 60 * 60 * 1000;
 const COMPLETED_KEY = 'aiq_completed_at';
@@ -37,9 +24,20 @@ export function TestSession({ initialPairs }: TestSessionProps) {
   const router = useRouter();
   const [phase, setPhase] = useState<Phase>('check');
   const [roundIndex, setRoundIndex] = useState(0);
-  const [results, setResults] = useState<RoundResult[]>([]);
+  const [submissions, setSubmissions] = useState<RoundSubmission[]>([]);
 
   useEffect(() => {
+    // Dev-only: ?reset=1 чистит лимит + sessionStorage и убирает параметр из URL.
+    // На production-сборке Next.js статически заменяет NODE_ENV — этот блок
+    // становится мёртвым кодом и в клиентский бандл не попадает.
+    if (process.env.NODE_ENV !== 'production') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('reset') === '1') {
+        localStorage.removeItem(COMPLETED_KEY);
+        sessionStorage.removeItem(RESULT_KEY);
+        window.history.replaceState(null, '', '/test');
+      }
+    }
     const completed = localStorage.getItem(COMPLETED_KEY);
     if (completed) {
       const elapsed = Date.now() - Number(completed);
@@ -51,31 +49,45 @@ export function TestSession({ initialPairs }: TestSessionProps) {
     setPhase('active');
   }, []);
 
-  function handleRoundComplete(result: RoundResult) {
-    const nextResults = [...results, result];
-    if (nextResults.length < initialPairs.length) {
-      setResults(nextResults);
+  function handleRoundComplete(submission: RoundSubmission) {
+    const next = [...submissions, submission];
+    if (next.length < initialPairs.length) {
+      setSubmissions(next);
       setRoundIndex((i) => i + 1);
       return;
     }
-    finalize(nextResults);
+    void finalize(next);
   }
 
-  function finalize(rounds: RoundResult[]) {
-    const now = Date.now();
-    const session: SessionResult = {
-      rounds,
-      aiq: computeAIQ(rounds),
-      modalityScores: computeModalityScores(rounds),
-      biasProfile: computeBiasProfile(rounds),
-      completedAt: now,
-    };
-    sessionStorage.setItem(RESULT_KEY, JSON.stringify(session));
-    localStorage.setItem(COMPLETED_KEY, String(now));
-    router.replace('/result');
+  async function finalize(rounds: RoundSubmission[]) {
+    setPhase('finalizing');
+    try {
+      const res = await fetch('/api/finish-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rounds }),
+      });
+      if (!res.ok) {
+        throw new Error('Не удалось завершить сессию');
+      }
+      const session: SessionResult = await res.json();
+      sessionStorage.setItem(RESULT_KEY, JSON.stringify(session));
+      localStorage.setItem(COMPLETED_KEY, String(Date.now()));
+      router.replace('/result');
+    } catch (err) {
+      // На клиенте source/type нет — пересчитать локально нельзя.
+      // В этой версии падаем с alert; в дальнейшем можно сделать retry-экран.
+      // eslint-disable-next-line no-alert
+      alert(
+        err instanceof Error
+          ? err.message
+          : 'Не удалось завершить сессию. Попробуйте обновить страницу.',
+      );
+      setPhase('active');
+    }
   }
 
-  if (phase === 'check') {
+  if (phase === 'check' || phase === 'finalizing') {
     return <div aria-hidden="true" />;
   }
 
@@ -108,7 +120,6 @@ export function TestSession({ initialPairs }: TestSessionProps) {
 
   const currentPair = initialPairs[roundIndex];
   if (!currentPair) {
-    // Защита от рантайма: finalize должен сработать раньше.
     return <div aria-hidden="true" />;
   }
 
@@ -118,7 +129,7 @@ export function TestSession({ initialPairs }: TestSessionProps) {
       pair={currentPair}
       roundIndex={roundIndex}
       totalRounds={initialPairs.length}
-      durationSeconds={DURATIONS[currentPair.modality]}
+      durationSeconds={currentPair.durationSeconds}
       onComplete={handleRoundComplete}
     />
   );

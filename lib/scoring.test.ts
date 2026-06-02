@@ -11,7 +11,7 @@ import type {
 const TYPE_BY_MODALITY: Record<Modality, ContentType> = {
   text: 'marketplace',
   image: 'painting',
-  video: 'cat-video',
+  video: 'catvideo',
   audio: 'song',
 };
 

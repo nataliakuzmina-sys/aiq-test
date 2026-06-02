@@ -1,10 +1,10 @@
 'use client';
 
-import type { ContentItem, Source } from '../lib/types';
+import type { PublicItem, Source } from '../lib/types';
 import { SourceToggle } from './SourceToggle';
 
 interface PairCardVideoProps {
-  item: ContentItem;
+  item: PublicItem;
   label: Source | null;
   onChange: (value: Source) => void;
   disabled?: boolean;
@@ -21,12 +21,9 @@ export function PairCardVideo({
       <div className="aspect-video w-full bg-background-primary rounded-xs overflow-hidden">
         <video
           src={item.url ?? ''}
-          autoPlay
-          muted
-          loop
           playsInline
           controls
-          preload="auto"
+          preload="metadata"
           className="w-full h-full object-contain"
           aria-label="Видео для оценки"
         >

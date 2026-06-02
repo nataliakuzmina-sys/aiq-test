@@ -2,11 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type {
-  ContentItem,
-  ContentType,
   Modality,
-  Pair,
-  RoundResult,
+  PublicItem,
+  PublicPair,
+  RoundSubmission,
   Source,
 } from '../lib/types';
 import { PairCardAudio } from './PairCardAudio';
@@ -17,25 +16,12 @@ import { ProgressBar } from './ProgressBar';
 import { Timer } from './Timer';
 
 interface TestRoundProps {
-  pair: Pair;
+  pair: PublicPair;
   roundIndex: number;
   totalRounds: number;
   durationSeconds: number;
-  onComplete: (result: RoundResult) => void;
+  onComplete: (submission: RoundSubmission) => void;
 }
-
-const ROUND_TITLES: Record<ContentType, string> = {
-  marketplace: 'Описания товара',
-  bank: 'Сообщения банка',
-  'ai-note': 'Заметки об ИИ',
-  painting: 'Картины',
-  landscape: 'Пейзажи',
-  'cat-video': 'Видео с котятами',
-  'ad-video': 'Рекламные ролики',
-  'phone-call-a': 'Телефонные звонки',
-  'phone-call-b': 'Телефонные звонки',
-  song: 'Песни',
-};
 
 const TIMEOUT_TOAST_MS = 800;
 
@@ -50,8 +36,6 @@ export function TestRound({
   const [timedOut, setTimedOut] = useState(false);
   const [showTimeoutToast, setShowTimeoutToast] = useState(false);
 
-  // Стабильные ссылки: тайм-аут-эффект не должен перевыполняться при каждом
-  // изменении labels или пересоздании onComplete родителем.
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
   const labelsRef = useRef(labels);
@@ -60,7 +44,7 @@ export function TestRound({
   useEffect(() => {
     if (!showTimeoutToast) return;
     const id = setTimeout(() => {
-      onCompleteRef.current({ pair, userLabels: labelsRef.current });
+      onCompleteRef.current({ pairId: pair.id, userLabels: labelsRef.current });
     }, TIMEOUT_TOAST_MS);
     return () => clearTimeout(id);
   }, [showTimeoutToast, pair]);
@@ -78,19 +62,18 @@ export function TestRound({
   function handleSubmit() {
     if (timedOut) return;
     if (labels[0] === null || labels[1] === null) return;
-    onComplete({ pair, userLabels: labels });
+    onComplete({ pairId: pair.id, userLabels: labels });
   }
 
   const bothLabeled = labels[0] !== null && labels[1] !== null;
   const submitDisabled = !bothLabeled || timedOut;
-  const title = ROUND_TITLES[pair.type];
 
   return (
     <div className="mx-auto w-full max-w-[1200px] flex flex-col gap-6 p-4 pb-24 md:p-8 md:pb-32">
       <ProgressBar current={roundIndex + 1} total={totalRounds} />
 
       <header className="flex items-center justify-between gap-4">
-        <h1 className="text-xl md:text-2xl font-bold">{title}</h1>
+        <h1 className="text-xl md:text-2xl font-bold">{pair.roundTitle}</h1>
         <Timer duration={durationSeconds} onTimeUp={handleTimeout} />
       </header>
 
@@ -142,7 +125,7 @@ export function TestRound({
 }
 
 interface PairCardSlotProps {
-  item: ContentItem;
+  item: PublicItem;
   modality: Modality;
   label: Source | null;
   onChange: (value: Source) => void;

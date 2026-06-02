@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import type { ContentItem, ContentType, Source } from '../lib/types';
+import type { AudioKind, PublicItem, Source } from '../lib/types';
 import { SourceToggle } from './SourceToggle';
 
 interface PairCardAudioProps {
-  item: ContentItem;
+  item: PublicItem;
   label: Source | null;
   onChange: (value: Source) => void;
   disabled?: boolean;
@@ -16,9 +16,8 @@ interface AudioMeta {
   label: string;
 }
 
-const AUDIO_META: Partial<Record<ContentType, AudioMeta>> = {
-  'phone-call-a': { iconSrc: '/icons/call.svg', label: 'Звонок' },
-  'phone-call-b': { iconSrc: '/icons/call.svg', label: 'Звонок' },
+const AUDIO_META: Record<AudioKind, AudioMeta> = {
+  call: { iconSrc: '/icons/call.svg', label: 'Звонок' },
   song: { iconSrc: '/icons/audio.svg', label: 'Песня' },
 };
 
@@ -30,7 +29,7 @@ export function PairCardAudio({
   onChange,
   disabled,
 }: PairCardAudioProps) {
-  const meta = AUDIO_META[item.type] ?? FALLBACK;
+  const meta = item.audioKind ? AUDIO_META[item.audioKind] : FALLBACK;
 
   return (
     <article className="flex flex-col gap-4 h-full bg-background-display border border-border-selector rounded-sm p-5 shadow-card">

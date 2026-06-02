@@ -23,7 +23,11 @@ function isValidSession(value: unknown): value is SessionResult {
   for (const m of ['text', 'image', 'video', 'audio']) {
     if (typeof ms[m] !== 'number') return false;
   }
-  if (!Array.isArray(v.rounds)) return false;
+  // rounds опционально: серверный /api/finish-session не возвращает их
+  // намеренно (RoundResult содержит реальные source/type, не должны утекать
+  // на клиент). Старый клиентский finalize мог писать rounds — оставляем
+  // совместимость только на проверку типа, если поле присутствует.
+  if (v.rounds !== undefined && !Array.isArray(v.rounds)) return false;
   if (v.publication !== undefined && v.publication !== null) {
     if (typeof v.publication !== 'object') return false;
     const p = v.publication as Record<string, unknown>;

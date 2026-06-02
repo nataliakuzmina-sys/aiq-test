@@ -1,5 +1,17 @@
-import type { ContentItem, ContentType, Modality, Pair } from './types';
-import { MODALITY_BY_TYPE } from './types';
+import {
+  AUDIO_KIND_BY_TYPE,
+  MODALITY_BY_TYPE,
+  ROUND_TITLES,
+  getDurationSeconds,
+} from './types';
+import type {
+  ContentItem,
+  ContentType,
+  Modality,
+  Pair,
+  PublicItem,
+  PublicPair,
+} from './types';
 
 export type Rng = () => number;
 
@@ -47,8 +59,10 @@ export function buildAllPairs(items: readonly ContentItem[]): Pair[] {
         const a = group[i] as ContentItem;
         const b = group[j] as ContentItem;
         const [first, second] = a.id < b.id ? [a, b] : [b, a];
+        // pair.id строится только из item id, БЕЗ префикса type —
+        // на клиенте (PublicPair) id не должен раскрывать подкатегорию.
         pairs.push({
-          id: `${type}-${first.id}-${second.id}`,
+          id: `${first.id}-${second.id}`,
           type,
           modality: MODALITY_BY_TYPE[type],
           items: [first, second],
@@ -100,29 +114,23 @@ export function selectSessionPairs(
   allPairs: readonly Pair[],
   rng: Rng = Math.random,
 ): Pair[] {
-  const byModality = groupBy(allPairs, (p) => p.modality) as Record<Modality, Pair[]>;
   const byType = groupBy(allPairs, (p) => p.type) as Record<ContentType, Pair[]>;
 
+  // text — 2 пары из 3 типов (по возможности из разных)
   const textPairsByType: Record<string, Pair[]> = {
     marketplace: byType.marketplace ?? [],
     bank: byType.bank ?? [],
-    'ai-note': byType['ai-note'] ?? [],
+    note: byType.note ?? [],
   };
-  const audioPairsByType: Record<string, Pair[]> = {
-    'phone-call-a': byType['phone-call-a'] ?? [],
-    'phone-call-b': byType['phone-call-b'] ?? [],
-    song: byType.song ?? [],
-  };
-
   const textPicks = pickPairsAcrossTypes(textPairsByType, 2, rng);
-  const audioPicks = pickPairsAcrossTypes(audioPairsByType, 2, rng);
 
+  // image / video / audio — жёстко по одной паре каждого типа
   const paintingPick = pickOne(byType.painting ?? [], rng);
   const landscapePick = pickOne(byType.landscape ?? [], rng);
-  const catVideoPick = pickOne(byType['cat-video'] ?? [], rng);
-  const adVideoPick = pickOne(byType['ad-video'] ?? [], rng);
-
-  void byModality;
+  const catVideoPick = pickOne(byType.catvideo ?? [], rng);
+  const adVideoPick = pickOne(byType.advideo ?? [], rng);
+  const phonecallPick = pickOne(byType.phonecall ?? [], rng);
+  const songPick = pickOne(byType.song ?? [], rng);
 
   return [
     ...textPicks,
@@ -130,6 +138,34 @@ export function selectSessionPairs(
     landscapePick,
     catVideoPick,
     adVideoPick,
-    ...audioPicks,
+    phonecallPick,
+    songPick,
   ];
+}
+
+// === Public conversion ===
+
+function toPublicItem(item: ContentItem, type: ContentType): PublicItem {
+  const audioKind = AUDIO_KIND_BY_TYPE[type];
+  const publicItem: PublicItem = {
+    id: item.id,
+    modality: item.modality,
+  };
+  if (item.content !== undefined) publicItem.content = item.content;
+  if (item.url !== undefined) publicItem.url = item.url;
+  if (audioKind !== undefined) publicItem.audioKind = audioKind;
+  return publicItem;
+}
+
+export function toPublic(pair: Pair): PublicPair {
+  return {
+    id: pair.id,
+    modality: pair.modality,
+    roundTitle: ROUND_TITLES[pair.type],
+    durationSeconds: getDurationSeconds(pair.type),
+    items: [
+      toPublicItem(pair.items[0], pair.type),
+      toPublicItem(pair.items[1], pair.type),
+    ],
+  };
 }

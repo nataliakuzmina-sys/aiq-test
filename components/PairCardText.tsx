@@ -1,10 +1,10 @@
 'use client';
 
-import type { ContentItem, Source } from '../lib/types';
+import type { PublicItem, Source } from '../lib/types';
 import { SourceToggle } from './SourceToggle';
 
 interface PairCardTextProps {
-  item: ContentItem;
+  item: PublicItem;
   label: Source | null;
   onChange: (value: Source) => void;
   disabled?: boolean;
