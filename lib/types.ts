@@ -105,15 +105,15 @@ export const MODALITY_BY_TYPE: Record<ContentType, Modality> = {
 };
 
 export const ROUND_TITLES: Record<ContentType, string> = {
-  marketplace: 'Описания товаров',
-  bank: 'Сообщения от банков',
-  note: 'Заметки',
+  marketplace: 'Описание товара в карточке маркетплейса',
+  bank: 'Сообщение от банка о готовности карты',
+  note: 'Развёрнутый текст об ИИ',
   painting: 'Картины',
   landscape: 'Пейзажи',
   catvideo: 'Видео с котятами',
   advideo: 'Рекламные ролики',
   phonecall: 'Телефонные звонки',
-  song: 'Песни',
+  song: 'Музыкальные композиции',
 };
 
 export const AUDIO_KIND_BY_TYPE: Partial<Record<ContentType, AudioKind>> = {

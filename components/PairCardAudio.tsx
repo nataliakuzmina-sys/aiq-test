@@ -18,7 +18,7 @@ interface AudioMeta {
 
 const AUDIO_META: Record<AudioKind, AudioMeta> = {
   call: { iconSrc: '/icons/call.svg', label: 'Звонок' },
-  song: { iconSrc: '/icons/audio.svg', label: 'Песня' },
+  song: { iconSrc: '/icons/audio.svg', label: 'Аудио' },
 };
 
 const FALLBACK: AudioMeta = { iconSrc: '/icons/audio.svg', label: 'Аудио' };

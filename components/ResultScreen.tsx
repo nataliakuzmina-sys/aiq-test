@@ -34,7 +34,7 @@ const BIAS_META: Record<BiasProfile, BiasMeta> = {
   },
   paranoid: {
     icon: '🔍',
-    name: 'Параноик',
+    name: 'Мнительный',
     hint: 'Часто видите ИИ там, где его нет.',
   },
   trusting: {
@@ -307,7 +307,7 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
                   <p className="text-text-primary">
                     {publication.percentile === null
                       ? `Вы среди первых ${publication.totalResults} прошедших.`
-                      : `Вы лучше чем ${publication.percentile}% прошедших.`}
+                      : `Ваш AIQ выше, чем у ${publication.percentile}% прошедших`}
                   </p>
                 </div>
               )}

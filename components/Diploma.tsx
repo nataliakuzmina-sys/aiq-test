@@ -8,7 +8,7 @@ interface DiplomaProps {
 
 const BIAS_NAME: Record<BiasProfile, string> = {
   balanced: 'Сбалансированный',
-  paranoid: 'Параноик',
+  paranoid: 'Мнительный',
   trusting: 'Доверчивый',
 };
 

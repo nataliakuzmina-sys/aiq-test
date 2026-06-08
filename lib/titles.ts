@@ -9,27 +9,26 @@ function bracketOf(aiq: number): AiqBracket {
   return 'low';
 }
 
-// Заглушки из PRD.md. Копирайтер заменит финальными формулировками.
 const TITLES: Record<AiqBracket, Record<BiasProfile, string>> = {
   high: {
-    balanced: 'AI-снайпер',
+    balanced: 'AI-снайпер: бьёт без промаха',
     paranoid: 'Видит ИИ даже там, где его нет',
-    trusting: 'Точен, когда уверен',
+    trusting: 'Верит людям — и не зря',
   },
   'mid-high': {
-    balanced: 'ИИ-зоркость в норме',
-    paranoid: 'Видит ИИ даже в котах',
-    trusting: 'Замечает машинку через раз',
+    balanced: 'Зоркость в норме',
+    paranoid: 'Подозревает даже котят',
+    trusting: 'Чаще верит, чем сомневается',
   },
   'mid-low': {
-    balanced: 'Половину распознаёт',
+    balanced: '50 / 50',
     paranoid: 'Постоянно ищет ИИ — и часто находит в людях',
     trusting: 'Готов принять любого',
   },
   low: {
-    balanced: 'Уже не различает',
-    paranoid: 'Никому не верит',
-    trusting: 'Готов поверить любому',
+    balanced: 'Границы стёрлись',
+    paranoid: 'Везде видит ИИ — и ошибается',
+    trusting: 'Ищет человечность — и ошибается',
   },
 };
 

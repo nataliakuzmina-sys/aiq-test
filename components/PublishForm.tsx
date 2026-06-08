@@ -21,7 +21,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
     setError(null);
     const trimmed = name.trim();
     if (show && trimmed.length === 0) {
-      setError('Введите имя, чтобы попасть в лидерборд.');
+      setError('Введите имя, чтобы попасть в рейтинг');
       return;
     }
     setBusy(true);
@@ -46,9 +46,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
       <h2 className="text-xl font-bold">Опубликовать результат</h2>
 
       <label className="flex flex-col gap-1">
-        <span className="text-sm font-medium">
-          Имя для лидерборда (необязательно)
-        </span>
+        <span className="text-sm font-medium">Имя для рейтинга</span>
         <input
           type="text"
           value={name}
@@ -68,7 +66,7 @@ export function PublishForm({ onPublish }: PublishFormProps) {
           disabled={busy}
           className="w-4 h-4 accent-primary"
         />
-        <span className="text-sm">Показывать в публичном лидерборде</span>
+        <span className="text-sm">Показывать в публичном рейтинге</span>
       </label>
 
       {error && (

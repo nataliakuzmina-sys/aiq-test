@@ -38,7 +38,7 @@ interface HowItWorksItem {
 const HOW_IT_WORKS: readonly HowItWorksItem[] = [
   {
     title: '8 быстрых раундов',
-    text: 'В каждом раунде показаны два объекта из одной группы, на выбор отведено от 30 до 60 секунд.',
+    text: 'В каждом раунде показаны два объекта из одной группы, на выбор отведено от 30 до 150 секунд.',
   },
   {
     title: 'Случайный набор',
@@ -69,12 +69,12 @@ export default function LandingPage() {
         </picture>
         <div className="relative z-10 mx-auto w-full max-w-[900px] flex flex-col items-center text-center gap-6 px-4 md:px-8 py-16 md:py-24">
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            Человек или ИИ? Проверьте свой AIQ
+            Человек или ИИ? Проверьте свой AIQ (индекс ИИ-зоркости)
           </h1>
           <p className="text-lg md:text-xl text-text-secondary max-w-[700px]">
-            Прокачайте ИИ-зоркость — определите, что создано человеком, а где
-            поработала нейросеть. Вас ждут 8 раундов с текстом, графикой, аудио и
-            видео. Докажите, что эксперта не обмануть, и заберите диплом.
+            Определите, что создано человеком, а где поработала нейросеть.
+            8 раундов с текстом, графикой, аудио и видео. Докажите, что эксперта
+            не обмануть, и заберите диплом
           </p>
           <Link
             href="/test"
@@ -131,7 +131,7 @@ export default function LandingPage() {
             href="/test"
             className="inline-block px-8 py-4 rounded-xs bg-button-primary text-text-inverse text-lg font-semibold shadow-elevated hover:bg-button-primary-hover"
           >
-            Пройти тест
+            Начать
           </Link>
         </div>
       </section>

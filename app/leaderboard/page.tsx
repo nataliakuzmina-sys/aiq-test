@@ -27,8 +27,8 @@ export default async function LeaderboardPage() {
   if (error) {
     return (
       <main className="mx-auto w-full max-w-[900px] p-4 md:p-8 flex flex-col gap-4">
-        <h1 className="text-3xl font-bold">Топ ИИ-зорких людей маркетинга</h1>
-        <p className="text-text-accent">Не удалось загрузить лидерборд.</p>
+        <h1 className="text-3xl font-bold">Топ ИИ-зорких</h1>
+        <p className="text-text-accent">Не удалось загрузить рейтинг</p>
       </main>
     );
   }
@@ -47,7 +47,7 @@ export default async function LeaderboardPage() {
 
   return (
     <main className="mx-auto w-full max-w-[900px] p-4 md:p-8 flex flex-col gap-6">
-      <h1 className="text-3xl font-bold">Топ ИИ-зорких людей маркетинга</h1>
+      <h1 className="text-3xl font-bold">Топ ИИ-зорких</h1>
       <Leaderboard entries={entries} />
     </main>
   );

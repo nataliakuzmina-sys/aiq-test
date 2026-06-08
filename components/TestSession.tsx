@@ -95,10 +95,10 @@ export function TestSession({ initialPairs }: TestSessionProps) {
     return (
       <main className="mx-auto w-full max-w-[600px] flex flex-col items-center gap-6 p-8 text-center">
         <h1 className="text-2xl md:text-3xl font-bold">
-          Вы уже прошли AIQ сегодня
+          Вы уже прошли тест AIQ сегодня
         </h1>
         <p className="text-text-secondary">
-          Загляните завтра — попадётся другая комбинация вопросов.
+          Загляните завтра — попробуйте свои силы с другой комбинацией вопросов
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
@@ -111,7 +111,7 @@ export function TestSession({ initialPairs }: TestSessionProps) {
             href="/leaderboard"
             className="px-5 py-3 rounded-xs border border-border-selector bg-background-display text-text-primary font-semibold text-center hover:bg-background-primary"
           >
-            Открыть лидерборд
+            Открыть рейтинг
           </Link>
         </div>
       </main>

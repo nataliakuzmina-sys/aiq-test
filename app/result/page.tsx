@@ -71,7 +71,7 @@ export default function ResultPage() {
         href="/test"
         className="px-5 py-3 rounded-xs bg-button-primary text-text-inverse font-semibold"
       >
-        Пройти тест
+        Начать
       </Link>
     </main>
   );

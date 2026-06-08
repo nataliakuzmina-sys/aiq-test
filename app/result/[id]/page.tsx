@@ -41,10 +41,10 @@ export async function generateMetadata({
   const title = getTitle(row.aiq, row.bias_profile);
   return {
     title: `AIQ ${row.aiq} — ${title}`,
-    description: `Распознал ИИ-контент на ${row.aiq} из 100. Проверь себя.`,
+    description: `Распознал ИИ-контент на ${row.aiq} из 100. Проверишь себя?`,
     openGraph: {
       title: `AIQ ${row.aiq} — ${title}`,
-      description: `Распознал ИИ-контент на ${row.aiq} из 100. Проверь себя.`,
+      description: `Распознал ИИ-контент на ${row.aiq} из 100. Проверишь себя?`,
       type: 'website',
     },
   };

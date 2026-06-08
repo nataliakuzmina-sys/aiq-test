@@ -19,7 +19,7 @@ const BIAS_ICON: Record<BiasProfile, string> = {
 
 const BIAS_NAME: Record<BiasProfile, string> = {
   balanced: 'Сбалансированный',
-  paranoid: 'Параноик',
+  paranoid: 'Мнительный',
   trusting: 'Доверчивый',
 };
 

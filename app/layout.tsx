@@ -12,9 +12,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: 'AIQ — рейтинг ИИ-зоркости',
+  title: 'AIQ — индекс ИИ-зоркости',
   description:
-    'Тест на различение контента, созданного ИИ и человеком. Получите ваш балл AIQ и шарящийся диплом.',
+    'Отличите контент, созданный ИИ и человеком? Пройдите тест, получите балл AIQ и диплом для соцсетей',
 };
 
 export default function RootLayout({
