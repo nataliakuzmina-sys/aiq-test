@@ -1,5 +1,14 @@
 import Link from 'next/link';
 
+// Временно: force-dynamic вычищает старый SSG-артефакт, который Vercel держал
+// в edge-кеше после правок копирайтера (split-cache: одни узлы отдавали новую
+// версию, другие — старую с ETag 4ab6, несмотря на свежие деплои с уникальным
+// buildId). Динамический рендер на каждый запрос гарантирует, что любой узел
+// возьмёт ответ из текущего билда, а не из закешированного HTML. После
+// подтверждения чистоты у всех регионов можно вернуть SSG.
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: 'Методология AIQ',
   description:
