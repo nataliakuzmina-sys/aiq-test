@@ -14,7 +14,7 @@ export function SiteHeader() {
         </Link>
         <nav className="flex gap-5 text-sm">
           <Link href="/leaderboard" className="text-text-primary hover:text-text-accent">
-            Лидерборд
+            Рейтинг
           </Link>
           <Link href="/methodology" className="text-text-primary hover:text-text-accent">
             Методология
