@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { LeadMagnetPopup } from '../components/LeadMagnetPopup';
 
 interface ModalityCard {
   iconSrc: string;
@@ -135,6 +136,12 @@ export default function LandingPage() {
           </Link>
         </div>
       </section>
+      <LeadMagnetPopup
+        place="landing"
+        delaySeconds={180}
+        enableExitIntent={true}
+        storageKey="aiq_popup_landing_shown"
+      />
     </main>
   );
 }

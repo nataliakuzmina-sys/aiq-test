@@ -12,6 +12,7 @@ import type {
   SessionResult,
 } from '../lib/types';
 import { Diploma } from './Diploma';
+import { LeadMagnetPopup } from './LeadMagnetPopup';
 import { PublishForm } from './PublishForm';
 
 interface ResultScreenProps {
@@ -324,6 +325,14 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
           </Link>
         </div>
       </div>
+      {!isShared && (
+        <LeadMagnetPopup
+          place="result"
+          delaySeconds={5}
+          enableExitIntent={false}
+          storageKey="aiq_popup_result_shown"
+        />
+      )}
     </main>
   );
 }
