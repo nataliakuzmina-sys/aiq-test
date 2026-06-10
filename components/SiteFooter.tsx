@@ -6,8 +6,8 @@ export function SiteFooter() {
           <div className="flex flex-col gap-3 items-start">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/logos/textlogo-cobranding.svg"
-              alt="KOKOC GROUP × РБК"
+              src="/logos/kokoc-logo-text.svg"
+              alt="KOKOC GROUP"
               className="h-6 md:h-8 w-auto"
             />
             <a href="mailto:pr@kokocgroup.ru" className="hover:text-text-primary">

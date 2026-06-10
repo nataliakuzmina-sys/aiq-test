@@ -102,9 +102,12 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
     if (!diplomaRef.current || downloading) return;
     setDownloading(true);
     try {
+      // cacheBust:true заставлял html-to-image заново качать фон-PNG
+      // (через ?cacheBust=<ts>), и второй запрос не успевал завершиться до
+      // создания canvas — фон попадал в скачанный PNG пустым. <img> уже в
+      // DOM и закеширован браузером, повторная загрузка не нужна.
       const dataUrl = await toPng(diplomaRef.current, {
         pixelRatio: 1,
-        cacheBust: true,
         backgroundColor: '#FFFFFF',
         width: DIPLOMA_WIDTH,
         height: DIPLOMA_HEIGHT,

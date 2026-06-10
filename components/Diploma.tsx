@@ -60,7 +60,7 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
         }}
         aria-hidden="true"
       />
-      {/* Белая подложка с текстом — в верхней части PNG, ниже cobranding-логотипа */}
+      {/* Белая подложка с текстом — в верхней части PNG, ниже шапки фоновой картинки */}
       <div
         style={{
           position: 'absolute',

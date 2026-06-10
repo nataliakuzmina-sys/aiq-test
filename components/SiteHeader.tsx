@@ -7,8 +7,8 @@ export function SiteHeader() {
         <Link href="/" aria-label="На главную" className="inline-flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/logos/cobranding.svg"
-            alt="Kokoc × РБК"
+            src="/logos/kokoc-logo-text.svg"
+            alt="KOKOC GROUP"
             className="h-8 md:h-10 w-auto"
           />
         </Link>
