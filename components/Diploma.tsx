@@ -51,6 +51,7 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
       <img
         src={bgSrc}
         alt=""
+        data-diploma-bg=""
         style={{
           position: 'absolute',
           inset: 0,

@@ -1,6 +1,5 @@
 'use client';
 
-import { toPng } from 'html-to-image';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -64,6 +63,66 @@ const DIPLOMA_WIDTH = 1080;
 const DIPLOMA_HEIGHT = 1920;
 const RESULT_KEY = 'aiq_session_result';
 
+const DIPLOMA_BG_PATH: Record<BiasProfile, string> = {
+  balanced: '/diploma/diploma-balanced.png',
+  paranoid: '/diploma/diploma-paranoid.png',
+  trusting: '/diploma/diploma-trusting.png',
+};
+
+const DIPLOMA_DOMAIN = 'aiq-test-zeta.vercel.app';
+
+function formatDiplomaDate(ts: number | undefined): string {
+  if (!ts) return '';
+  return new Date(ts).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+function wrapText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+): string[] {
+  if (!text) return [''];
+  const words = text.split(' ');
+  const lines: string[] = [];
+  let current = '';
+  for (const word of words) {
+    const test = current ? `${current} ${word}` : word;
+    if (ctx.measureText(test).width <= maxWidth) {
+      current = test;
+    } else {
+      if (current) lines.push(current);
+      current = word;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+function drawRoundedRect(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+): void {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.arcTo(x + w, y, x + w, y + r, r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+  ctx.lineTo(x + r, y + h);
+  ctx.arcTo(x, y + h, x, y + h - r, r);
+  ctx.lineTo(x, y + r);
+  ctx.arcTo(x, y, x + r, y, r);
+  ctx.closePath();
+}
+
 export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
   const title = getTitle(session.aiq, session.biasProfile);
   const bias = BIAS_META[session.biasProfile];
@@ -102,19 +161,110 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
     if (!diplomaRef.current || downloading) return;
     setDownloading(true);
     try {
-      // cacheBust:true заставлял html-to-image заново качать фон-PNG
-      // (через ?cacheBust=<ts>), и второй запрос не успевал завершиться до
-      // создания canvas — фон попадал в скачанный PNG пустым. <img> уже в
-      // DOM и закеширован браузером, повторная загрузка не нужна.
-      const dataUrl = await toPng(diplomaRef.current, {
-        pixelRatio: 1,
-        backgroundColor: '#FFFFFF',
-        width: DIPLOMA_WIDTH,
-        height: DIPLOMA_HEIGHT,
-      });
+      // Рисуем диплом вручную на canvas: фон через createImageBitmap +
+      // drawImage, плашка и текст — fillRect/fillText. html-to-image для
+      // скачивания не используем (показал нестабильность за сессию).
+      const bgRes = await fetch(DIPLOMA_BG_PATH[session.biasProfile]);
+      const bgBlob = await bgRes.blob();
+      const bgBitmap = await createImageBitmap(bgBlob);
+
+      await document.fonts.ready;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = DIPLOMA_WIDTH;
+      canvas.height = DIPLOMA_HEIGHT;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas 2D context недоступен');
+
+      ctx.drawImage(bgBitmap, 0, 0, DIPLOMA_WIDTH, DIPLOMA_HEIGHT);
+      bgBitmap.close();
+
+      // Имя реального шрифта берём из computed style диплома — next/font
+      // подставляет обфусцированное имя вида __Montserrat_xxxxxx.
+      const fontFamily =
+        getComputedStyle(diplomaRef.current).fontFamily ||
+        'Montserrat, system-ui, sans-serif';
+
+      const diplomaTitle = getTitle(session.aiq, session.biasProfile);
+      const biasName = bias.name;
+      const date = formatDiplomaDate(session.completedAt);
+
+      // Координаты плашки — соответствуют верстке Diploma.tsx
+      // (top: 260, left/right: 80, padding 80/60, radius 20).
+      const cardX = 80;
+      const cardY = 260;
+      const cardWidth = DIPLOMA_WIDTH - 160;
+      const cardPaddingX = 60;
+      const cardPaddingY = 80;
+      const cardRadius = 20;
+      const innerWidth = cardWidth - cardPaddingX * 2;
+
+      const labelSize = 60;
+      const aiqSize = 256;
+      const titleSize = 60;
+      const titleLineHeight = Math.round(titleSize * 1.25); // leading-tight ≈ 1.25
+      const biasSize = 36;
+      const gap = 40;
+
+      ctx.font = `700 ${titleSize}px ${fontFamily}`;
+      const titleLines = wrapText(ctx, diplomaTitle, innerWidth);
+      const titleHeight = titleLines.length * titleLineHeight;
+
+      const contentHeight =
+        labelSize + gap + aiqSize + gap + titleHeight + gap + biasSize;
+      const cardHeight = cardPaddingY * 2 + contentHeight;
+
+      // Белая плашка
+      ctx.fillStyle = '#FFFFFF';
+      drawRoundedRect(ctx, cardX, cardY, cardWidth, cardHeight, cardRadius);
+      ctx.fill();
+
+      // Текст внутри плашки — центрирован, baseline top для предсказуемости.
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      const centerX = cardX + cardWidth / 2;
+      let y = cardY + cardPaddingY;
+
+      // «Ваш AIQ»
+      ctx.fillStyle = '#84867D';
+      ctx.font = `400 ${labelSize}px ${fontFamily}`;
+      ctx.fillText('Ваш AIQ', centerX, y);
+      y += labelSize + gap;
+
+      // Число AIQ
+      ctx.fillStyle = '#FF4747';
+      ctx.font = `800 ${aiqSize}px ${fontFamily}`;
+      ctx.fillText(String(session.aiq), centerX, y);
+      y += aiqSize + gap;
+
+      // Титул (может занять 1–3 строки)
+      ctx.fillStyle = '#000000';
+      ctx.font = `700 ${titleSize}px ${fontFamily}`;
+      for (const line of titleLines) {
+        ctx.fillText(line, centerX, y);
+        y += titleLineHeight;
+      }
+      y += gap;
+
+      // Профиль (Сбалансированный / Мнительный / Доверчивый)
+      ctx.fillStyle = '#84867D';
+      ctx.font = `600 ${biasSize}px ${fontFamily}`;
+      ctx.fillText(biasName, centerX, y);
+
+      // Footer — дата слева, домен справа.
+      ctx.font = `400 30px ${fontFamily}`;
+      ctx.fillStyle = '#84867D';
+      ctx.textBaseline = 'alphabetic';
+      const footerY = DIPLOMA_HEIGHT - 64;
+      ctx.textAlign = 'left';
+      ctx.fillText(date, 80, footerY);
+      ctx.textAlign = 'right';
+      ctx.fillText(DIPLOMA_DOMAIN, DIPLOMA_WIDTH - 80, footerY);
+
+      const finalUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
       link.download = `aiq-${session.aiq}.png`;
-      link.href = dataUrl;
+      link.href = finalUrl;
       link.click();
     } finally {
       setDownloading(false);
