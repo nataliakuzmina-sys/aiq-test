@@ -3,34 +3,38 @@
 import { useEffect, useState } from 'react';
 
 interface LeadMagnetPopupProps {
-  place: 'landing' | 'result';
   delaySeconds: number;
   enableExitIntent: boolean;
   storageKey: string;
 }
 
 const COPY = {
-  title: 'Заберите полезные материалы от Kokoc Group',
-  subtitle: 'Выберите, что ближе — и забирайте в Telegram.',
-  offers: [
+  title: 'ИИ для бизнеса — три прикладных материала',
+  subtitle: 'Забирайте подборку от Kokoc Group:',
+  bullets: [
     {
-      slug: 'guide',
-      text: 'Гайд: как создавать ИИ-контент, который выглядит дорого',
-      cta: 'Забрать гайд',
+      lead: 'Гайд',
+      tail:
+        ': промпты для реалистичной графики в стиле вашего бренда — без дешёвого AI-эффекта',
     },
     {
-      slug: 'seo',
-      text:
-        'Бесплатная консультация: как перестроить SEO и стать видимым для нейросетей',
-      cta: 'Записаться',
+      lead: 'GEO чек-лист',
+      tail: ': как настроить сайт, чтобы бренд рекомендовали нейросети',
+    },
+    {
+      lead: 'Кейс',
+      tail:
+        ': замена съёмок на ИИ-персонажа — х5 экономия на продакшн, +69% просмотров в соцсетях',
     },
   ],
+  cta: 'Забрать в Telegram',
+  caption:
+    'При клике на кнопку вы перейдете в Telegram-бот Платформы Kokoc Group',
 };
 
-const TG_BASE = 'https://t.me/kokoc_platform_bot';
+const TG_URL = 'https://t.me/kokoc_platform_bot?start=3718651';
 
 export function LeadMagnetPopup({
-  place,
   delaySeconds,
   enableExitIntent,
   storageKey,
@@ -48,7 +52,6 @@ export function LeadMagnetPopup({
       if (sessionStorage.getItem(storageKey) === '1') return;
       sessionStorage.setItem(storageKey, '1');
       setMounted(true);
-      // следующая микро-итерация — добавляем класс анимации, slide-in
       requestAnimationFrame(() => setAnimateIn(true));
       if (timerId) clearTimeout(timerId);
       removeExitIntent();
@@ -79,18 +82,13 @@ export function LeadMagnetPopup({
 
   function handleClose() {
     setAnimateIn(false);
-    // Дать анимации завершиться, потом размонтировать
     setTimeout(() => setMounted(false), 300);
-  }
-
-  function offerLink(slug: string) {
-    return `${TG_BASE}?start=aiq_${place}_${slug}`;
   }
 
   return (
     <div
       role="dialog"
-      aria-label="Полезные материалы от Kokoc"
+      aria-label="Полезные материалы от Kokoc Group"
       className={[
         'fixed z-50 bg-background-display shadow-elevated',
         'left-0 right-0 bottom-0 rounded-t-xl p-5 pt-6',
@@ -111,22 +109,26 @@ export function LeadMagnetPopup({
       </button>
       <h3 className="text-base font-bold pr-8 leading-tight">{COPY.title}</h3>
       <p className="text-sm text-text-secondary mt-2">{COPY.subtitle}</p>
-      <div className="mt-4 flex flex-col gap-4">
-        {COPY.offers.map((o) => (
-          <div key={o.slug} className="flex flex-col gap-2">
-            <p className="text-sm text-text-primary leading-snug">{o.text}</p>
-            <a
-              href={offerLink(o.slug)}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleClose}
-              className="self-start px-4 py-2 rounded-xs bg-button-primary text-text-inverse text-sm font-semibold hover:bg-button-primary-hover"
-            >
-              {o.cta}
-            </a>
-          </div>
+      <ul className="mt-3 list-disc pl-5 flex flex-col gap-3 text-sm text-text-primary leading-snug marker:text-text-secondary">
+        {COPY.bullets.map((b) => (
+          <li key={b.lead}>
+            <strong className="font-semibold">{b.lead}</strong>
+            {b.tail}
+          </li>
         ))}
-      </div>
+      </ul>
+      <a
+        href={TG_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={handleClose}
+        className="mt-4 block w-full px-6 py-3 rounded-xs bg-button-primary text-text-inverse text-base font-semibold text-center hover:bg-button-primary-hover"
+      >
+        {COPY.cta}
+      </a>
+      <p className="mt-2 text-[10px] text-text-secondary leading-tight text-left">
+        {COPY.caption}
+      </p>
     </div>
   );
 }

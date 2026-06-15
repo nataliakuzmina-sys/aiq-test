@@ -137,7 +137,6 @@ export default function LandingPage() {
         </div>
       </section>
       <LeadMagnetPopup
-        place="landing"
         delaySeconds={180}
         enableExitIntent={true}
         storageKey="aiq_popup_landing_shown"

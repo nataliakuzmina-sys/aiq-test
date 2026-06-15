@@ -480,7 +480,6 @@ export function ResultScreen({ session, mode = 'own' }: ResultScreenProps) {
       </div>
       {!isShared && (
         <LeadMagnetPopup
-          place="result"
           delaySeconds={5}
           enableExitIntent={false}
           storageKey="aiq_popup_result_shown"
