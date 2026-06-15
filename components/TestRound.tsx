@@ -72,9 +72,15 @@ export function TestRound({
     <div className="mx-auto w-full max-w-[1200px] flex flex-col gap-6 p-4 pb-24 md:p-8 md:pb-32">
       <ProgressBar current={roundIndex + 1} total={totalRounds} />
 
-      <header className="flex items-center justify-between gap-4">
-        <h1 className="text-xl md:text-2xl font-bold">{pair.roundTitle}</h1>
-        <Timer duration={durationSeconds} onTimeUp={handleTimeout} />
+      <header className="flex flex-col gap-2">
+        <div className="flex items-center justify-between gap-4">
+          <h1 className="text-xl md:text-2xl font-bold">{pair.roundTitle}</h1>
+          <Timer duration={durationSeconds} onTimeUp={handleTimeout} />
+        </div>
+        <p className="text-sm md:text-base text-text-secondary font-normal">
+          Определите автора каждого примера: ИИ или человек. В паре возможны
+          любые сочетания.
+        </p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
