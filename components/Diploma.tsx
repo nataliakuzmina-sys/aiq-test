@@ -13,9 +13,9 @@ const BIAS_NAME: Record<BiasProfile, string> = {
 };
 
 const DIPLOMA_BACKGROUND: Record<BiasProfile, string> = {
-  balanced: '/diploma/diploma-balanced.png',
-  paranoid: '/diploma/diploma-paranoid.png',
-  trusting: '/diploma/diploma-trusting.png',
+  balanced: '/diploma/diploma-balanced.webp',
+  paranoid: '/diploma/diploma-paranoid.webp',
+  trusting: '/diploma/diploma-trusting.webp',
 };
 
 function formatDate(ts: number | undefined): string {

@@ -64,9 +64,9 @@ const DIPLOMA_HEIGHT = 1920;
 const RESULT_KEY = 'aiq_session_result';
 
 const DIPLOMA_BG_PATH: Record<BiasProfile, string> = {
-  balanced: '/diploma/diploma-balanced.png',
-  paranoid: '/diploma/diploma-paranoid.png',
-  trusting: '/diploma/diploma-trusting.png',
+  balanced: '/diploma/diploma-balanced.webp',
+  paranoid: '/diploma/diploma-paranoid.webp',
+  trusting: '/diploma/diploma-trusting.webp',
 };
 
 const DIPLOMA_DOMAIN = 'aiq-test-zeta.vercel.app';
