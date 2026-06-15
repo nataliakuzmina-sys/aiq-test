@@ -66,7 +66,9 @@ function Option({ name, source, label, checked, onChange }: OptionProps) {
         className={[
           'block w-full text-center px-4 py-3 rounded-xs border font-medium select-none cursor-pointer transition-colors',
           'border-button-primary bg-background-display text-text-accent',
-          'peer-hover:bg-background-tertiary',
+          // Hover-подсветка только на устройствах с курсором — на тач
+          // браузеры эмулируют :hover после тапа и серый фон залипает.
+          '[@media(hover:hover)and(pointer:fine)]:peer-hover:bg-background-tertiary',
           'peer-checked:bg-button-primary peer-checked:text-text-inverse peer-checked:border-button-primary',
           'peer-focus-visible:ring-2 peer-focus-visible:ring-button-primary peer-focus-visible:ring-offset-2',
           'peer-disabled:opacity-50 peer-disabled:cursor-not-allowed',

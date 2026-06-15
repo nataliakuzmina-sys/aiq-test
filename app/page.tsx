@@ -70,7 +70,10 @@ export default function LandingPage() {
         </picture>
         <div className="relative z-10 mx-auto w-full max-w-[900px] flex flex-col items-center text-center gap-6 px-4 md:px-8 py-16 md:py-24">
           <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-            Человек или ИИ? Проверьте свой AIQ (индекс ИИ-зоркости)
+            Человек или ИИ? Проверьте свой AIQ
+            <span className="block text-xl md:text-3xl font-semibold text-text-secondary mt-3">
+              (индекс ИИ-зоркости)
+            </span>
           </h1>
           <p className="text-lg md:text-xl text-text-secondary max-w-[700px]">
             Определите, что создано человеком, а где поработала нейросеть.
