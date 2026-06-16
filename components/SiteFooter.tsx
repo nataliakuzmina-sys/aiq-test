@@ -4,12 +4,20 @@ export function SiteFooter() {
       <div className="mx-auto w-full max-w-[1200px] px-4 md:px-8 py-8 flex flex-col gap-6 text-sm text-text-secondary">
         <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-6">
           <div className="flex flex-col gap-3 items-start">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/logos/kokoc-logo-text.svg"
-              alt="KOKOC GROUP"
-              className="h-6 md:h-8 w-auto"
-            />
+            <a
+              href="https://kokocgroup.ru/?utm_source=aiq.kokocgroup.ru&utm_medium=internal&utm_campaign=aiq&utm_content=main_page"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Kokoc Group — главная"
+              className="inline-flex items-center"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logos/kokoc-logo-text.svg"
+                alt="KOKOC GROUP"
+                className="h-6 md:h-8 w-auto"
+              />
+            </a>
             <a href="mailto:pr@kokocgroup.ru" className="hover:text-text-primary">
               Email: pr@kokocgroup.ru
             </a>
