@@ -69,7 +69,7 @@ const DIPLOMA_BG_PATH: Record<BiasProfile, string> = {
   trusting: '/diploma/diploma-trusting.webp',
 };
 
-const DIPLOMA_DOMAIN = 'aiq-test-zeta.vercel.app';
+const DIPLOMA_DOMAIN = 'aiq.kokocgroup.ru';
 
 function formatDiplomaDate(ts: number | undefined): string {
   if (!ts) return '';

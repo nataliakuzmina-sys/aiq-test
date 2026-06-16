@@ -94,7 +94,7 @@ export const Diploma = forwardRef<HTMLDivElement, DiplomaProps>(function Diploma
         className="flex justify-between items-end px-20 pb-16 text-3xl text-text-secondary"
       >
         <span>{date}</span>
-        <span>aiq-test-zeta.vercel.app</span>
+        <span>aiq.kokocgroup.ru</span>
       </footer>
     </div>
   );

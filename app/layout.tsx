@@ -12,6 +12,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://aiq.kokocgroup.ru'),
   title: 'AIQ — индекс ИИ-зоркости',
   description:
     'Отличите контент, созданный ИИ и человеком? Пройдите тест, получите балл AIQ и диплом для соцсетей',
