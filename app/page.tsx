@@ -1,12 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
-
-// Попап появляется через 180 с — нет смысла включать его в initial bundle.
-const LeadMagnetPopup = dynamic(
-  () => import('../components/LeadMagnetPopup').then((m) => m.LeadMagnetPopup),
-  { ssr: false },
-);
+import { LeadMagnetPopup } from '../components/LeadMagnetPopup';
 
 interface ModalityCard {
   iconSrc: string;
