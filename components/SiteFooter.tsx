@@ -15,6 +15,8 @@ export function SiteFooter() {
               <img
                 src="/logos/kokoc-logo-text.svg"
                 alt="KOKOC GROUP"
+                width={297}
+                height={52}
                 className="h-6 md:h-8 w-auto"
               />
             </a>

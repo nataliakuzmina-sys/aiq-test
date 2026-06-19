@@ -9,6 +9,8 @@ export function SiteHeader() {
           <img
             src="/logos/kokoc-logo-text.svg"
             alt="KOKOC GROUP"
+            width={297}
+            height={52}
             className="h-8 md:h-10 w-auto"
           />
         </Link>

@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -11,8 +12,13 @@ import type {
   SessionResult,
 } from '../lib/types';
 import { Diploma } from './Diploma';
-import { LeadMagnetPopup } from './LeadMagnetPopup';
 import { PublishForm } from './PublishForm';
+
+// Попап появляется через 5 с — выносим в отдельный chunk,
+// чтобы он не блокировал гидрацию /result.
+const LeadMagnetPopup = dynamic(() => import('./LeadMagnetPopup').then((m) => m.LeadMagnetPopup), {
+  ssr: false,
+});
 
 interface ResultScreenProps {
   session: SessionResult;
