@@ -54,17 +54,29 @@ const HOW_IT_WORKS: readonly HowItWorksItem[] = [
 export default function LandingPage() {
   return (
     <main className="flex-1 flex flex-col">
+      {/* LCP-preload: Next hoists <link> в <head>, браузер начнёт качать
+          hero до парсинга <picture>. imageSrcSet/imageSizes — чтобы preload
+          совпал с тем, что выберет браузер по медиа-запросам. */}
+      <link
+        rel="preload"
+        as="image"
+        href="/illustrations/hero/hero-360.webp"
+        imageSrcSet="/illustrations/hero/hero-360.webp 360w, /illustrations/hero/hero-768.webp 768w, /illustrations/hero/hero-1280.webp 1280w, /illustrations/hero/hero.webp 1920w"
+        imageSizes="100vw"
+        fetchPriority="high"
+      />
       <section className="relative w-full overflow-hidden min-h-[500px] md:min-h-[600px] flex items-center">
         <picture className="absolute inset-0 w-full h-full">
-          <source media="(min-width: 1280px)" srcSet="/illustrations/hero/hero.png" />
-          <source media="(min-width: 768px)" srcSet="/illustrations/hero/hero-1280.png" />
-          <source media="(min-width: 360px)" srcSet="/illustrations/hero/hero-768.png" />
+          <source media="(min-width: 1280px)" srcSet="/illustrations/hero/hero.webp" type="image/webp" />
+          <source media="(min-width: 768px)" srcSet="/illustrations/hero/hero-1280.webp" type="image/webp" />
+          <source media="(min-width: 360px)" srcSet="/illustrations/hero/hero-768.webp" type="image/webp" />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/illustrations/hero/hero-360.png"
+            src="/illustrations/hero/hero-360.webp"
             alt=""
             className="absolute inset-0 w-full h-full object-cover object-center"
             loading="eager"
+            fetchPriority="high"
             aria-hidden="true"
           />
         </picture>
